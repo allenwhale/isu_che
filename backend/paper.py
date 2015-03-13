@@ -1,6 +1,8 @@
 from req import RequestHandler
 from req import reqenv
 from req import Service
+import time
+
 class PaperService:
     def __init__(self, db):
         self.db = db
@@ -33,6 +35,6 @@ class PaperHandler(RequestHandler):
             if err:
                 self.finish(err)
                 return
-            self.set_secure_cookie('uid', str(uid), httponly = True)
+            self.set_secure_cookie('uid', str(uid), httponly=True, expires=time.time()+3600)
             self.finish('S')
         pass

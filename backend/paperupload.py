@@ -26,7 +26,6 @@ class PaperuploadService:
         if cur.rowcount != 1:
             return ('EDB',None);
         pid = str(cur.fetchone()[0])
-        print(pid)
         filename = theme+'-'+'P-'+('%03d'%int(pid))+'-'+('Y' if int(competition)==1 else 'N')+'-'+name+'.'+f.filename.split('.')[-1]
         yield cur.execute('UPDATE "paper" set filename = %s,pid = %s WHERE "paper"."rid" = %s;',
                 (filename,pid,rid))
@@ -144,7 +143,6 @@ class PaperuploadHandler(RequestHandler):
             return
         uid = str(int(uid))
         err, abstract = yield from PaperuploadService.inst.get_abstract_info(uid)
-        print(abstract)
         self.render('../http/paperupload_2.html',acct=self.acct, abstract=abstract)
         return
 
@@ -168,11 +166,11 @@ class PaperuploadHandler(RequestHandler):
         addition = self.get_arguments('addition[]')
         email = self.get_arguments('email[]')
         author = zip(list(first_name), list(last_name), list(position), list(department), list(affiliation), list(addition), list(email))
-        print(author)
         err, aid = yield from PaperuploadService.inst.upload(uid, topic, title, number, keyword, abstract, author)
         if err:
             self.finish(err)
             return
+        self.clear_cookie('uid')
         self.finish(str(aid))
 '''
     @reqenv

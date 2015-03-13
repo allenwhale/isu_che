@@ -10,7 +10,6 @@ $(document).ready(function(){
         var form = $('#login');
         var email = form.find('.email').val();
         var password = form.find('.password').val();
-        alert(email+password);
         $.post('/paper',{
             'req': 'login',
             'email': email,

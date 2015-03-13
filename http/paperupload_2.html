@@ -1,6 +1,9 @@
 {% extends '../http/index.html' %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="paperupload.css">
+<!--script src="/alertify.min.js"></script>
+<link rel="stylesheet" href="/alertify.core.css" />
+<link rel="stylesheet" href="/alertify.default.css" /-->
 {% end %}
 {% block content %}
 <script>
@@ -26,7 +29,7 @@ $(document).ready(function(){
 	$('button.del').click(function(){
 		$(this).parent().parent().remove();
 	});
-	$('textarea.abstract').change(function(){
+	$('textarea.abstract').keyup(function(){
 		var len = $('textarea.abstract').val().replace( /^\s+|\s+$/g, '' ).split(/\s+/).length;
 		if($('textarea.abstract').val().replace( /^\s+|\s+$/g, '' ) == '')len--;
 		var html = '';
@@ -114,6 +117,42 @@ $(document).ready(function(){
 				return;
 			}
 		}
+		/*var confirm_data = '主題: ' + topic + '<br>';
+		confirm_data += '論文標題: ' + title + '<br>';
+		confirm_data += '計畫編號: ' + num + '<br>';
+		for(k in keyword){
+			confirm_data += '關鍵字' + (parseInt(k, 10)+1) + ': ' + keyword[k] + '<br>';
+		}
+		alertify.confirm(confirm_data, function(e){
+			if(e){
+			}else{
+			}
+		});
+		confirm_data = '';
+		confirm_data += '摘要: ' + abstract + '<br>';
+		confirm_data += '---------------------------<br>';
+		alertify.confirm(confirm_data, function(e){
+			if(e){
+			}else{
+			}
+		});
+		confirm_data = '';
+		for(i in first_name){
+			confirm_data += '作者' + (parseInt(i)+1) + '<br>';
+			confirm_data += '姓名: ' + first_name[i] + ' ' + last_name[i] + '<br>';
+			confirm_data += '職稱: ' + position[i] + '<br>';
+			confirm_data += '系所(單位): ' + department[i] + '<br>';
+			confirm_data += '學校(公司): ' + affiliation[i] + '<br>';
+			confirm_data += '附加資料: ' + addition[i] + '<br>';
+			confirm_data += 'Email: ' + email[i] + '<br>';
+			confirm_data += '---------------------------<br>';
+		}
+		alertify.confirm(confirm_data, function(e){
+			if(e){
+			}else{
+			}
+		});
+		return;
 		var data = {
 			'topic': topic,
 			'title': title,
@@ -127,7 +166,7 @@ $(document).ready(function(){
 			'affiliation': affiliation,
 			'addition': addition,
 			'email': email
-		};
+		};*/
 		$.post('/paperupload', {
 			'topic': topic,
 			'title': title,
@@ -144,13 +183,23 @@ $(document).ready(function(){
 		}, function(res){
 			if(res[0] == 'E'){
 				alert(res);
-			}else if(res[0] == 'S'){
-				alert(res);
+			}else{
+				alert('成功上傳');
+				window.location = '/';
 			}
 		});
 		console.log(data);
 	});
 });
+function autogrow(textarea){
+	var adjustedHeight=textarea.clientHeight;
+
+	adjustedHeight=Math.max(textarea.scrollHeight,adjustedHeight);
+	if (adjustedHeight>textarea.clientHeight){
+		textarea.style.height=adjustedHeight+'px';
+	}
+
+}
 </script>
 <div class="container">
 	<form class="form-upload">
@@ -167,14 +216,14 @@ $(document).ready(function(){
 					<td>主題*</td>
 					<td>
 						<select class="form-control  topic">
-							<option value="A">A. Biochemical and Biomedical Engineering</option>
-							<option value="B">B. Transport Phenomena and Separation Technology</option>
-							<option value="C">C. Thermodynamics and Interface Technology</option>
-							<option value="D">D. Energy Technology</option>
-							<option value="E">E. Material Science </option>
-							<option value="F">F. Electochemical Technology</option>
-							<option value="G">G. Green Chemical Technology and System Engineering</option>
-							<option value="H">H. Catalysis and Reaction Engineering</option>
+							<option value="A. Biochemical and Biomedical Engineering">A. Biochemical and Biomedical Engineering</option>
+							<option value="B. Transport Phenomena and Separation Technology">B. Transport Phenomena and Separation Technology</option>
+							<option value="C. Thermodynamics and Interface Technology">C. Thermodynamics and Interface Technology</option>
+							<option value="D. Energy Technology">D. Energy Technology</option>
+							<option value="E. Material Science">E. Material Science </option>
+							<option value="F. Electochemical Technology">F. Electochemical Technology</option>
+							<option value="G. Green Chemical Technology and System Engineering">G. Green Chemical Technology and System Engineering</option>
+							<option value="H. Catalysis and Reaction Engineering">H. Catalysis and Reaction Engineering</option>
 						</select>
 					</td>
 				</tr>
@@ -197,7 +246,7 @@ $(document).ready(function(){
 						<br>
 						目前字數:<div class="count" style="float: right"></div>
 					</td>
-					<td><textarea class="form-control abstract"></textarea></td>
+					<td><textarea class="form-control abstract" onkeyup="autogrow(this);"></textarea></td>
 				</tr>
 				<tr>
 					<td colspan=2><strong>作者</strong><button type="button" style="float: right;" class="btn btn-success add-auth">新增作者</button></td>
@@ -260,14 +309,14 @@ $(document).ready(function(){
 					<td>主題*</td>
 					<td>
 						<select class="form-control  topic">
-							<option value="A" {% if abstract['topic'] == 'A' %}selected{% end %}>A. Biochemical and Biomedical Engineering</option>
-							<option value="B" {% if abstract['topic'] == 'B' %}selected{% end %}>B. Transport Phenomena and Separation Technology</option>
-							<option value="C" {% if abstract['topic'] == 'C' %}selected{% end %}>C. Thermodynamics and Interface Technology</option>
-							<option value="D" {% if abstract['topic'] == 'D' %}selected{% end %}>D. Energy Technology</option>
-							<option value="E" {% if abstract['topic'] == 'E' %}selected{% end %}>E. Material Science </option>
-							<option value="F" {% if abstract['topic'] == 'F' %}selected{% end %}>F. Electochemical Technology</option>
-							<option value="G" {% if abstract['topic'] == 'G' %}selected{% end %}>G. Green Chemical Technology and System Engineering</option>
-							<option value="H" {% if abstract['topic'] == 'H' %}selected{% end %}>H. Catalysis and Reaction Engineering</option>
+							<option value="A. Biochemical and Biomedical Engineering" {% if abstract['topic'] == 'A. Biochemical and Biomedical Engineering' %}selected{% end %}>A. Biochemical and Biomedical Engineering</option>
+							<option value="B. Transport Phenomena and Separation Technology" {% if abstract['topic'] == 'B. Transport Phenomena and Separation Technology' %}selected{% end %}>B. Transport Phenomena and Separation Technology</option>
+							<option value="C. Thermodynamics and Interface Technology" {% if abstract['topic'] == 'C. Thermodynamics and Interface Technology' %}selected{% end %}>C. Thermodynamics and Interface Technology</option>
+							<option value="D. Energy Technology" {% if abstract['topic'] == 'D. Energy Technology' %}selected{% end %}>D. Energy Technology</option>
+							<option value="E. Material Science" {% if abstract['topic'] == 'E. Material Science' %}selected{% end %}>E. Material Science </option>
+							<option value="F. Electochemical Technology" {% if abstract['topic'] == 'F. Electochemical Technology' %}selected{% end %}>F. Electochemical Technology</option>
+							<option value="G. Green Chemical Technology and System Engineering" {% if abstract['topic'] == 'G. Green Chemical Technology and System Engineering' %}selected{% end %}>G. Green Chemical Technology and System Engineering</option>
+							<option value="H. Catalysis and Reaction Engineering" {% if abstract['topic'] == 'H. Catalysis and Reaction Engineering' %}selected{% end %}>H. Catalysis and Reaction Engineering</option>
 						</select>
 					</td>
 				</tr>
@@ -296,7 +345,7 @@ $(document).ready(function(){
 						<br>
 						目前字數:<div class="count" style="float: right"></div>
 					</td>
-					<td><textarea class="form-control abstract">{{ abstract['abstract'] }}</textarea></td>
+					<td><textarea class="form-control abstract" onkeyup="autogrow(this);">{{ abstract['abstract'] }}</textarea></td>
 				</tr>
 				{% set i = 0 %}
 				{% for a in abstract['author'] %}
