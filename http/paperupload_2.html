@@ -1,9 +1,9 @@
 {% extends '../http/index.html' %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="paperupload.css">
-<!--script src="/alertify.min.js"></script>
+<script src="/alertify.min.js"></script>
 <link rel="stylesheet" href="/alertify.core.css" />
-<link rel="stylesheet" href="/alertify.default.css" /-->
+<link rel="stylesheet" href="/alertify.default.css" />
 {% end %}
 {% block content %}
 <script>
@@ -167,28 +167,32 @@ $(document).ready(function(){
 			'addition': addition,
 			'email': email
 		};*/
-		$.post('/paperupload', {
-			'topic': topic,
-			'title': title,
-			'number': num,
-			'keyword[]': keyword,
-			'abstract': abstract,
-			'first_name[]': first_name,
-			'last_name[]': last_name,
-			'position[]': position,
-			'department[]': department,
-			'affiliation[]': affiliation,
-			'addition[]': addition,
-			'email[]': email
-		}, function(res){
-			if(res[0] == 'E'){
-				alert(res);
-			}else{
-				alert('成功上傳');
-				window.location = '/';
+		var tf=false;
+		alertify.confirm('確認資料無誤?', function(e){
+			if(e){
+				$.post('/paperupload', {
+					'topic': topic,
+					'title': title,
+					'number': num,
+					'keyword[]': keyword,
+					'abstract': abstract,
+					'first_name[]': first_name,
+					'last_name[]': last_name,
+					'position[]': position,
+					'department[]': department,
+					'affiliation[]': affiliation,
+					'addition[]': addition,
+					'email[]': email
+				}, function(res){
+					if(res[0] == 'E'){
+						alert(res);
+					}else{
+						alert('成功上傳');
+						window.location = '/';
+					}
+				});
 			}
 		});
-		console.log(data);
 	});
 });
 function autogrow(textarea){
