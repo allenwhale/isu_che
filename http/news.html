@@ -1,0 +1,33 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="news.css">
+{% end %}
+{% block content %}
+<div class="container" style="width: 970px;">
+	<h1>最新消息</h1>
+	<table class="table table-hover">
+		<thead><tr>
+			<th>時間</th>
+			<th>公告標題</th>
+		</tr></thead>
+		<tbody>
+			{% for t in title_list %}
+			<tr>
+				<td style="width:20%;">{{t['time']}}</td>
+				<td>{% if int(t['top']) == 1 %}<div class="ui red horizontal label">置頂</div>{% end %}<a href="/news?page={{t['id']}}">{{t['title']}}</a></td>
+			</tr>
+			{% end %}
+		</tbody>
+	</table>
+	<!--<center>
+		<ul class="pagination">
+			<li><a href="#">&laquo</a></li>
+			<li><a href="#">1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>
+			<li><a href="#">&raquo</a></li>
+		</ul>
+	</center>
+	-->
+</div>
+{% end %}

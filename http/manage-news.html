@@ -1,0 +1,97 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/manage-news.css">
+{% end %}
+{% block content %}
+<div class="container">
+	<table class="table table-hover">
+		<thead><tr>
+			<th></th>
+			<th>時間</th>
+			<th>公告標題</th>
+		</tr></thead>
+		<tbody>
+			{% for t in title_list %}
+			<tr>
+				<td style="width:20px;"><button class="btn btn-warning del" value="{{t['id']}}">Del</button></td>
+				<td style="width:20%;">{{t['time']}}</td>
+				<td>{% if int(t['top']) == 1 %}<div class="ui red horizontal label">置頂</div>{% end %}<a href="/news?page={{t['id']}}">{{t['title']}}</a></td>
+			</tr>
+			{% end %}
+		</tbody>
+	</table>
+	<form class="form-manage-news">
+		<label>標題: </label>
+		<input class="form-control title"></input>
+		<label>置頂 <input type="checkbox" class="top"></input></label>
+		<br/>
+		<label>內容: </label>
+		<textarea class="form-control content"></textarea>
+		<table class="table table-bordered" style="margin-top:10px;">
+			<thead>
+				<tr>
+					<td style="width:20%;">附件名稱</td>
+					<td>附件連結</td>
+					<td style="width:20%;"><button type="button" class="btn btn-primary add-attach">新增附件</button></td>
+				</tr>
+			</thead>
+			<tbody class="attach">
+			</tbody>
+		</table>
+		<button type="button" class="btn btn-primary submit">Submit</button>
+	</form>
+</div>
+<script>
+$(document).ready(function(){
+	var add_attach=$('button.add-attach');
+	var attach_tbody=$('tbody.attach');
+	add_attach.click(function(){
+		var tmp='';
+		tmp+='<tr>';
+		tmp+='<td><input class="form-control attach-name"></input></td>';
+		tmp+='<td colspan="2"><input class="form-control attach-link"></input></td>';
+		tmp+='</tr>';
+		attach_tbody.append(tmp);
+	});
+	var submit=$('button.submit');
+	submit.click(function(){
+		var title=$('input.title').val();
+		var top=$('input.top').prop('checked');
+		var content=$('textarea.content').val();
+		var attach_name=[];
+		var attach_link=[];
+		$('input.attach-name').each(function(){
+			attach_name.push($(this).val());
+		});
+		$('input.attach-link').each(function(){
+			attach_link.push($(this).val());
+		});
+		$.post('/manage/news',{
+			'type':'add',
+			'title':title,
+			'top':top?'1':'0',
+			'content':content,
+			'attach_name':attach_name.toString(),
+			'attach_link':attach_link.toString()
+		},function(res){
+			if(res[0] == 'E'){
+				alert('something wrong');
+			}else{
+				alert('done');
+			}
+		});
+	});
+	var del=$('button.del');
+	del.click(function(){
+		alert($(this).val());
+		var nid=$(this).val();
+		$.post('/manage/news',{
+			'type':'del',
+			'nid':nid
+		},function(res){
+			alert(res);
+		});
+	});
+});
+</script>
+{% end %}

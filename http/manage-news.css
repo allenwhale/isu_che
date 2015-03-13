@@ -1,0 +1,34 @@
+.form-manage-news{
+	max-width: 670px;
+	padding: 15px;
+	margin: 0 auto;
+}
+.form-manage-news .form-manage-news-heading,
+.form-manage-news .checkbox {
+	margin-bottom: 10px;
+}
+.form-manage-news .checkbox {
+	font-weight: normal;
+}
+.form-manage-news .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+}
+.form-manage-news .form-control:focus {
+	z-index: 2;
+}
+.form-manage-news input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-manage-news input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}

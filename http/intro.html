@@ -1,0 +1,26 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="intro.css">
+{% end %}
+{% block content %}
+<div class="container">
+	<div class="example">
+		<h2 class="ui header">年會介紹</h2>
+		<div class="tab demo">
+			<div class="ui secondary menu">
+				<a data-tab="first" class="item active">年會介紹</a>
+				<a data-tab="second" class="item">籌備組織</a>
+				<a data-tab="third" class="item">年會海報</a>
+			</div>
+			<div data-tab="first" class="ui tab segment active">
+年會介紹
+			</div>
+			<div data-tab="second" class="ui tab segment">
+籌備組織
+			</div>
+			<div data-tab="third" class="ui tab segment">
+				年會海報
+			</div>
+		</div>
+</div>
+{% end %}

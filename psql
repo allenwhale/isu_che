@@ -1,0 +1,88 @@
+CREATE DATABASE web WITH ENCODING = 'UNICODE';
+CREATE TABLE news(
+	id integer NOT NULL,
+	content character varying,
+	attachment_name character varying [],
+	attachment_link character varying [],
+	"timestamp" timestamp with time zone DEFAULT now()
+);
+
+CREATE SEQUENCE news_id_seq
+	START WITH 1
+	INCREMENT BY 1
+	NO MINVALUE
+	NO MAXVALUE
+	CACHE 1;
+
+ALTER SEQUENCE news_id_seq OWNED BY news.id;
+CREATE TABLE account(
+	uid SERIAL,
+	email character varying,
+	name character varying,
+	place character varying,
+	title character varying,
+	password character varying,
+	"timestamp" timestamp with time zone DEFAULT now()
+);
+CREATE TABLE register(
+	rid SERIAL,
+	name character varying,
+	title character varying,
+	affiliation character varying,
+	department character varying,
+	address character varying,
+	postcode character varying,
+	email character varying,
+	phone character varying,
+	fax character varying,
+	cellphone character varying,
+	member integer,
+	package integer,
+	banquet integer,
+	total integer,
+	food integer,
+	food_date1 integer,
+	food_date2 integer,
+	agenda character varying,
+	paper character varying,
+	transnum character varying,
+	transmulti integer,
+	invoice character varying,
+	vat character varying
+);
+CREATE TABLE paper(
+	pid integer,
+	rid integer,
+	name character varying,
+	theme character varying,
+	competition integer,
+	title character varying,
+	author character varying,
+	affiliation character varying,
+	number character varying,
+	filename character varying
+);
+CREATE TABLE abstract(
+	aid SERIAL,
+	uid integer,
+	topic character varying,
+	title character varying,
+	number character varying,
+	abstract character varying
+);
+CREATE TABLE keyword_of_abstract(
+	kid SERIAL,
+	aid integer,
+	keyword character varying
+);
+CREATE TABLE author_of_abstract(
+	auid SERIAL,
+	aid integer,
+	first_name character varying,
+	last_name character varying,
+	position character varying,
+	department character varying,
+	affiliation character varying,
+	addition character varying,
+	email character varying
+);

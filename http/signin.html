@@ -1,0 +1,49 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="signin.css">
+{% end %}
+{% block content %}
+<div class="container">
+	<form id="signin" class="form-signin">
+		<h2 class="form-signin-heading">登入</h2>
+		<label>帳號(E-mail): </label>
+		<input type="email" class="form-control email" placeholder="帳號" require></input>
+		<label>密碼: </label>
+		<input type="password" class="form-control password" placeholder="密碼" require></input>
+		<button type="button" style="float:left" class="btn btn-primary submit">登入</button>
+		<button type="button" style="margin-left:10px;float:left" class="btn btn-primary signup">註冊</button>
+		<div class="print" style="margin-left:10px;float:left; font-size:20px;color:#F00;"></div>
+	</form>
+</div>
+<script>
+$(document).ready(function(){
+	var form=$('#signin');
+	var submit=form.find('.submit');
+	var signup=form.find('.signup');
+	var print=$('div.print');
+	signup.click(function(){
+		window.location='/signup';
+	});
+	submit.click(function(){
+		var email=form.find('.email').val();
+		var pwd=form.find('.password').val();
+		$.post('/signin',{
+			'email':email,
+			'password':pwd,
+		},function(res){
+			if(res=='Enoexist'){
+				print.text('此帳號不存在');
+			}else if(res=='Epwderror'){
+				print.text('密碼錯誤');
+			}else if(res[0]=='E'){
+				print.text('something wrong');
+			}else{
+				print.css('color','green');
+				print.text('成功登入');
+				window.location='/';
+			}
+		});
+	});
+});
+</script>
+{% end %}

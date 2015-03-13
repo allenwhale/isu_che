@@ -1,0 +1,26 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="paper.css">
+{% end %}
+{% block content %}
+<div class="container">
+	<div class="example">
+		<h2 class="ui header">英語競賽</h2>
+		<div class="tab demo">
+			<div class="ui secondary menu">
+				<a data-tab="first" class="item">競賽規定</a>
+				<a data-tab="second" class="item">論文上傳</a>
+				<a data-tab="third" class="item active">競賽議程</a>
+				<a data-tab="fourth" class="item">分組名單</a>
+			</div>
+			<div data-tab="first" class="ui tab segment">競賽規定
+			</div>
+			<div data-tab="second" class="ui tab segment">論文上傳
+			</div>
+			<div data-tab="third" class="ui tab segment active">競賽議程
+			</div>
+			<div data-tab="fourth" class="ui tab segment">分組名單
+			</div>
+		</div>
+</div>
+{% end %}

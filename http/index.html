@@ -1,0 +1,175 @@
+<title>2015 化工年會</title>
+<head>
+	<script type="text/javascript" src="/jquery-2.1.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/semantic.min.css">
+	<link rel="stylesheet" type="text/css" href="/index.css">
+	<script type="text/javascript" src="/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/semantic.min.js"></script>
+	<script type="text/javascript" src="/jquery.address.min.js"></script>
+	{% block head %}{% end %}
+	<script>
+		$(document).ready(function(){
+			$('.tab.demo .menu .item').tab({
+				history: true,
+				context: $('.tab.demo')});
+		});
+	</script>
+</head>
+<body>
+	<center><div id="myCarousel" class="carousel slide" style="width:76%;" data-ride="carousel">
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1" class=""></li>
+			<li data-target="#myCarousel" data-slide-to="2" class=""></li>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<div class="item active">
+				<img src="/SC01-053.jpg">
+				<div class="container">
+					<div class="carousel-caption">
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<img src="/SC01-020.jpg">
+				<div class="container">
+					<div class="carousel-caption">
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<img src="/Sc07-195.jpg">
+				<div class="container">
+					<div class="carousel-caption">
+					</div>
+				</div>
+			</div>
+			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left" aria-hodden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right" aria-hodden="true"></span>
+				<span class="sr-only"Next</span>
+			</a>
+		</div>
+	</div></center>
+	<div class="container" style="/*min-width:1250px;*/width:80%;"><nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">toggle</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">化工年會</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class=""><a href="/news">最新消息</a></li>
+					<li class=""><a href="/intro">年會介紹</a></li>
+					<li class=""><a href="/agenda">會議議程</a></li>
+					<li class=""><a href="/register">報名註冊</a></li>
+					<li class=""><a href="/paper">論文投稿上傳</a></li>
+					<li class=""><a href="/english">英語競賽</a></li>
+					<li class=""><a href="/car">化學車競賽</a></li>
+					<li class=""><a href="/company">參展廠商</a></li>
+					<li class=""><a href="/sponsor">廣告贊助</a></li>
+					<li class=""><a href="/venue">住宿資訊</a></li>
+					<li class=""><a href="/traffic">交通資訊</a></li>
+					<!--<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">重要時間<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">議程時間表</a></li>
+							<li><a href="#">重要時程</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">介紹<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">年會介紹</a></li>
+							<li><a href="#">議程介紹</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">報名<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">報名註冊資訊</a></li>
+							<li><a href="#">報名註冊</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">論文投稿<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">論文投稿須知</a></li>
+							<li><a href="#">論文投稿上傳</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">相關競賽<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">壁報論文競賽</a></li>
+							<li><a href="#">英文專題報告競賽</a></li>
+							<li><a href="#">化學車(Chem-E-Car競賽)</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">相關資訊<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">住宿資訊</a></li>
+							<li><a href="#">交通資訊</a></li>
+						</ul>
+					</li>
+					<li class=""><a href="/table_">贊助企業單位一覽表</a></li>
+					<li class=""><a href="/table_">參展暨廣告單位一覽表</a></li>
+					<li class=""><a href="/section_">企業贊助專區</a></li>
+					<li class=""><a href="/committee_">籌備委員會</a></li>
+				-->
+					<!--
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+				{% if acct['uid'] == 0 %}
+				<li class=""><a href="/signin">登入</a></li>
+				<li class=""><a href="/signup">註冊</a></li>
+				{% else %}
+				<li class=""><a href="#">您好 {{acct['name']}}</a></li>
+				<li class=""><a href="/logout">登出</a></li>
+				{% end %}
+				</ul>
+				-->
+			</div>
+		</div>
+	</nav></div>
+	{% block content %}{% end %}
+	<br />
+	<div class="container">
+		<table style="width: 100%;">
+			<thead><tr>
+				<th style="font-size: 15px; width: 33%;">
+					<center>主辦單位</center>
+				</th>
+				<th style="font-size: 15px; width: 33%;">
+					<center>承辦單位</center>
+				</th>
+				<th style="font-size: 15px; width: 33%;">
+					<center>協辦單位</center>
+				</th>
+			</tr></thead>
+			<tbody>
+				<tr>
+					<td><center>
+						<a style="font-size:15px;" href="http://www.twiche.org.tw" target="_blank"><img src="/logo1.gif">台灣化學工程學會</a>
+					</center></td>
+					<td><center>
+						<a style="font-size:15px;" href="http://www.isu.edu.tw/ipages/81202-16-15136.html" target="_blank"><img src="/logo2.png">義守大學化學工程學系</a>
+					</center></td>
+					<td><center>
+						<a style="font-size:15px;" href="http://www.most.gov.tw/eng/" target="_blank"><img src="/logo3.jpg">科技部工程司工程科技推廣中心</a>
+					</center></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>

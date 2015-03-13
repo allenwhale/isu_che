@@ -1,0 +1,109 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="register.css">
+{% end %}
+{% block content %}
+<div class="container">
+	<form class="form-register" id="register">
+		<h2 class="form-register-heading">報名 Step 2</h2>
+		<label>繳費身分: </label>
+		<table class="table table-hover">
+			<thead><tr>
+				<th></th>
+				<th>10/15 前</th>
+				<th>10/15 後</th>
+				<th>現場價</th>
+			</tr></thead>
+			<tbody>
+				<tr>
+					<td><input type="radio" name="type" value="1">一般會員</input></td>
+					<td>1200</td>
+					<td>1500</td>
+					<td>2000</td>
+				</tr>
+				<tr>
+					<td><input type="radio" name="type" value="2">非會員</input></td>
+					<td>1500</td>
+					<td>2000</td>
+					<td>2500</td>
+				</tr>
+				<tr>
+					<td><input type="radio" name="type" value="3">學生會員</input></td>
+					<td>500</td>
+					<td>800</td>
+					<td>1000</td>
+				</tr>
+				<tr>
+					<td><input type="radio" name="type" value="4">學生</input></td>
+					<td>800</td>
+					<td>1000</td>
+					<td>1500</td>
+				</tr>
+			</tbody>
+		</table>
+		<div id="memnum">
+			<label>會員編號: </label>
+			<input type="text" class="form-control memnum" required></input>
+		</div>
+		<label>用餐調查</label>
+		<select class="form-control food">
+			<option value="1">葷</option>
+			<option value="2">素</option>
+		</select>
+		<button type="button" class="btn btn-primary submit" style="margin-top:10px;float:left">確認送出</button>
+		<div class="print" style="margin-left:10px;float:left; font-size:20px;color:#F00;margin-top:10px;"></div>
+	</form>
+</div>
+<script>
+$(document).ready(function(){
+	var form=$('#register');
+	var submit=form.find('.submit');
+	var memnum_div=$('#memnum');
+	var print=$('div.print');
+	memnum_div.hide();
+	$('input:radio[name="type"]').change(function(){
+		if($(this).val()==1||$(this).val()==3){
+			memnum_div.show();
+		}else{
+			memnum_div.hide();
+		}
+	});
+	submit.click(function(){
+		var type=$('input:radio:checked[name="type"]').val();
+		var food=form.find('select.food').val();
+		var memnum='';
+		if(typeof(type)=='undefined'){
+			print.text('請選擇繳費身分');
+			return ;
+		}
+		if(type==1||type==3){
+			memnum=$('input.memnum').val();
+		}
+		if(memnum==''&&(type==1||type==3)){
+			print.text('請輸入會員編號');
+			return;
+		}
+		$.post('/register',{
+			'step':2,
+			'type':type,
+			'memnum':memnum,
+			'food':food
+		},function(res){
+			if(res=='Enoexist'){
+				print.text('請先填寫 Step 1');
+				window.location='/register?step=1';
+			}else if(res=='Eexist'){
+				print.text('請勿重複填寫');
+				window.location='/register?step=3';
+			}else if(res[0]=='E'){
+				print.text('something wrong');
+			}else{
+				print.css('color','green');
+				alert('已完成報名 Step 2，請繼續Step 3');
+				window.location='/register?step=3';
+			}
+		});
+	});
+});
+</script>
+{% end %}

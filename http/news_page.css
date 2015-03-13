@@ -1,0 +1,17 @@
+.blog-main{
+	line-height: 1.5;
+}
+.blog-post{
+	margin-bottom: 60px;
+}
+.blog-post-title{
+	margin-bottom: 5px;
+	font-size: 40px;
+}
+.blog-post-meta{
+	margin-bottom: 20px;
+	color: #999;
+}
+p{
+	font-size: 22px;
+}

@@ -1,0 +1,142 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="paperupload.css">
+{% end %}
+{% block content %}
+<div class="container">
+	<form class="form-upload">
+		<h2 class="form-heading">論文摘要上傳</h2>
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<td>報名代號</td>
+					<td><input type="text" class="form-control" name="rid"></input></td>
+				</tr>
+				<tr>
+					<td>姓名</td>
+					<td><input type="text" class="form-control" name="name"></input></td>
+				</tr>
+				<tr>
+					<td>論文主題</td>
+					<td>
+						<input type="radio" name="theme" value="A">A. 生化與生醫</input>
+						<input type="radio" name="theme" value="B">B. 輸送現象及分離技術</input>
+						<input type="radio" name="theme" value="C">C. 熱力及界面工程</input><br/>
+						<input type="radio" name="theme" value="D">D. 能源工程</input>
+						<input type="radio" name="theme" value="E">E. 材料在化工上的應用</input>
+						<input type="radio" name="theme" value="F">F. 電化學技術</input><br/>
+						<input type="radio" name="theme" value="G">G. 綠色化工技術及程序系統工程</input>
+						<input type="radio" name="theme" value="H">H. 觸媒級反應工程</input>
+					</td>
+				</tr>
+				<tr>
+					<td>海報競賽</td>
+					<td>
+						<input type="radio" name="competition" value="1">參加海報競賽</input>
+						<input type="radio" name="competition" value="0">不參加海報競賽</input>
+					</td>
+				</tr>
+				<tr>
+					<td>論文標題</td>
+					<td><input type="text" class="form-control" name="title"></input></td>
+				</tr>
+				<tr>
+					<td>論文作者</td>
+					<td><input type="text" class="form-control" name="author"></input></td>
+				</tr>
+				<tr>
+					<td>服務單位名稱</td>
+					<td><input type="text" class="form-control" name="affiliation"></input></td>
+				</tr>
+				<tr>
+					<td>科技部計畫編號</td>
+					<td><input type="text" class="form-control" name="number"></input></td>
+				</tr>
+				<tr>
+					<td>論文格式上傳</td>
+					<td><input type="file" class="form-control" name="paper" id="paper"></input></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+			</div>
+		</div>
+		<button type="button" class="btn btn-primary submit" style="float: left;">送出</button>
+		<div style="float: left; margin-left: 10px; color: red;" class="print"></div>
+	</form>
+</div>
+<script>
+$(document).ready(function(){
+	var submit=$('button.submit');
+	submit.click(function(){
+		var rid=$('input[name=rid]').val();
+		var name=$('input[name=name]').val();
+		var theme=$('input[name=theme]:checked').val();
+		var competition=$('input[name=competition]:checked').val();
+		var title=$('input[name=title]').val();
+		var author=$('input[name=author]').val();
+		var affiliation=$('input[name=affiliation]').val();
+		var num=$('input[name=number]').val();
+		var file=document.getElementById('paper').files[0];
+		var print=$('div.print');
+		if(rid==''){
+			print.text('請輸入報名代號');
+			return;
+		}else if(name==''){
+			print.text('請輸入姓名');
+			return;
+		}else if(typeof(theme)=='undefined'){
+			print.text('請選擇論文主題');
+			return;
+		}else if(typeof(competition)=='undefined'){
+			print.text('請選擇是否參加海報競賽');
+			return;
+		}else if(title==''){
+			print.text('請輸入論文標題');
+			return;
+		}else if(author==''){
+			print.text('請輸入論文作者');
+			return;
+		}else if(affiliation==''){
+			print.text('請輸入服務單位名稱');
+			return;
+		}else if(num==''){
+			print.text('請輸入科技部計畫編號');
+			return;
+		}else if(typeof(file)=='undefined'){
+			print.text('請選擇論文上傳');
+			return;
+		}
+		var formdata=new FormData($('form')[0]);
+		$.ajax({
+			url: '/paperupload',
+			type: 'POST',
+			xhr: function() {
+				var myXhr = $.ajaxSettings.xhr();
+				if(myXhr.upload){
+					myXhr.upload.addEventListener('progress',progress, false);
+				}
+				return myXhr;
+			},
+			beforeSend: function(){},
+			success: function(res){
+				alert(res);
+			},
+			error: function(){},
+			data: formdata,
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+	});
+});
+function progress(e){
+	var bar=$('div.progress-bar');
+	var percent=100*e.loaded/e.total;
+	bar.css('width',percent+'%');
+	bar.attr('aria-valuenow',parseInt(percent.toString(),10));
+	bar.text(percent+'%');
+}
+</script>
+{% end %}

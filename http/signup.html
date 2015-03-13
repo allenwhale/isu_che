@@ -1,0 +1,113 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="signup.css">
+{% end %}
+{% block content %}
+<div class="container" style="">
+	<form id="signup" class="form-signup">
+		<h2 class="form-signup-heading">註冊帳號</h2>
+		<div>
+			<label>帳號(E-mail): </label>
+			<input type="email" class="form-control email" placeholder="帳號" required></input>
+		</div>
+		<label>姓名: </label>
+		<div>
+			<select class="form-control title" style="float:left;width: 20%;">
+				<option value="0">Prof.</option>
+				<option value="1">Dr.</option>
+				<option value="2">Mr.</option>
+				<option value="3">Ms.</option>
+				<option value="4">Other</option>
+			</select>
+			<input type="text" class="form-control name" style="width:80%;" placeholder="姓名" required></input>
+		</div>
+		<div id="otitle">
+			<label >職稱: </label>
+			<input type="text" class="form-control otitle" ></input>
+		</div>
+		<label>學校/系所(公司/部門): </label>
+		<input type="text" class="form-control place" placeholder="學校/系所(公司/部門)"></input>
+		<label>自訂密碼: </label>
+		<input type="password" class="form-control password" placeholder="自訂密碼" required></input>
+		<label>密碼確認: </label>
+		<input type="password" class="form-control repassword" placeholder="密碼確認" required></input>
+		<button type="button" style="float:left;"class="btn btn-primary submit">註冊</button>
+		<div class="print" style="margin-left:10px;float:left; font-size:20px;color:#F00;"></div>
+	</form>
+</div>
+<script>
+$(document).ready(function(){
+	var form=$('#signup');
+	var submit=$('button.submit');
+	var sel_title=$('select.title');
+	var otitle=$('#otitle');
+	var print=$('div.print');
+	otitle.hide();
+	sel_title.change(function(){
+		if($(this).val()==4){
+			otitle.show();
+		}else{
+			otitle.hide();
+		}
+	});
+	submit.click(function(){
+		var email=form.find('.email').val();
+		var name=form.find('.name').val();
+		var place=form.find('.place').val();
+		var seltitle=form.find('.title').val();
+		var pwd=form.find('.password').val();
+		var rpwd=form.find('.repassword').val();
+		var title='';
+		if(seltitle==0){
+			title='Prof.';
+		}else if(seltitle==1){
+			title='Dr.';
+		}else if(seltitle==2){
+			title='Mr.';
+		}else if(seltitle==3){
+			title='Ms.';
+		}else if(seltitle==4){
+			title=$('input.otitle').val();
+		}
+		if(email==''){
+			print.text('請輸入帳號');
+			return ;
+		}else if(name==''){
+			print.text('請輸入姓名');
+			return ;
+		}else if(place==''){
+			print.text('請輸入系所/單位');
+			return ;
+		}else if(title==''){
+			print.text('請輸入職稱');
+			return ;
+		}else if(pwd==''){
+			print.text('請輸入密碼');
+			return;
+		}else if(pwd!=rpwd){
+			print.text('請確認密碼');
+			return ;
+		}
+		$.post('/signup',{
+			'email':email,
+			'name':name,
+			'place':place,
+			'title':title,
+			'pwd':pwd,
+		},function(res){
+			if(res=='Eexistemail'){
+				print.text('此E-mail已被使用');
+			}else if(res=='Eexistname'){
+				print.text('此姓名已被使用');
+			}else if(res[0]=='E'){
+				print.text('something wrong');
+			}else{
+				print.css('color','green');
+				print.text('成功註冊',true);
+				window.location='/signin';
+			}
+		});
+	});
+});	
+</script>
+{% end %}

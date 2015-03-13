@@ -1,0 +1,52 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/manage-news.css">
+{% end %}
+{% block content %}
+<form>
+	<input type="file" name="test" id="test"/>
+	<input type="text" name="in"></input>
+	<button type="button" class="submit">submit</button>
+</form>
+<div class="progress">
+	<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+	</div>
+</div>
+<script>
+$(document).ready(function(){
+	var submit=$('button.submit');
+	submit.click(function(){
+		var formData = new FormData($('form')[0]);
+		var test=document.getElementById('test');
+		alert(test.files[0].name);
+		$.ajax({
+			url: '/test',  //Server script to process data
+			type: 'POST',
+			xhr: function() {  // Custom XMLHttpRequest
+				var myXhr = $.ajaxSettings.xhr();
+				if(myXhr.upload){ // Check if upload property exists
+				myXhr.upload.addEventListener('progress',progress, false); // For handling the progress of the upload
+				}
+				return myXhr;
+			},
+//Ajax events
+			beforeSend: function(){},
+			success: function(){alert('s');},
+			error: function(){},
+// Form data
+			data: formData,
+//Options to tell jQuery not to process data or worry about content-type.
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+	});
+	function progress(e){
+		if(e.lengthComputable){
+			$('.progress-bar').css('width',(100*e.loaded/e.total)+'%');
+			$('.progress-bar').text(parseInt((100*e.loaded/e.total).toString(),10)+'%');
+		}
+	}
+});
+</script>
+{% end %}

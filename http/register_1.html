@@ -1,0 +1,58 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="register.css">
+{% end %}
+{% block content %}
+<div class="container">
+	<form class="form-register" id="register">
+		<h2 class="form-register-heading">報名 Step 1</h2>
+		<label>姓名: </label>
+		<div>
+			<input type="text" class="form-control title" style="float:left; width:20%;" value="{{acct['title']}}" readonly></input>
+			<input type="text" class="form-control name" style="float:left;width:80%;" value="{{acct['name']}}" readonly></input>
+		</div>
+		<label>學校/系所(公司/部門): </label>
+		<input type="text" class="form-control place" value="{{acct['place']}}" readonly></input>
+		<label>手機號碼: </label>
+		<input type="text" class="form-control cellphone" placeholder="手機" required></input>
+		<label>連絡電話: </label>
+		<input type="text" class="form-control phone" placeholder="連絡電話" required></input>
+		<label>Email: </label>
+		<input type="text" class="form-control email" value="{{acct['email']}}" readonly></input>
+		<label>計畫編號: </label>
+		<input type="text" class="form-control number" placeholder="計畫編號" required></input>
+		<button type="button" class="btn btn-primary submit" style="margin-top: 10px;float:left;" >確認送出</button>
+		<div class="print" style="margin-left:10px;float:left; font-size:20px;color:#F00;"></div>
+	</form>
+</div>
+<script>
+$(document).ready(function(){
+	var form=$('#register');
+	var submit=form.find('.submit');
+	var print=$('div.print');
+	submit.click(function(){
+		var cellphone=form.find('.cellphone').val();
+		var phone=form.find('.phone').val();
+		var num=form.find('.number').val();
+		$.post('/register',{
+			'step':1,
+			'cellphone':cellphone,
+			'phone':phone,
+			'number':num
+		},function(res){
+			print.text(res);
+			if(res=='Eexist'){
+				print.text('請勿重複填寫');
+				window.location='/register?step=2';
+			}else if(res[0]=='E'){
+				print.text('something wrong');
+			}else{
+				print.css('color','green');
+				alert('已完成報名 Step 1，請繼續Step 2');
+				window.location='/register?step=2';
+			}
+		});
+	});
+});
+</script>
+{% end %}

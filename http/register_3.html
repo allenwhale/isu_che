@@ -1,0 +1,51 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="register.css">
+{% end %}
+{% block content %}
+<div class="container">
+	<form class="form-register" id="register">
+		<h2 class="form-register-heading">報名 Step 3</h2>
+		<label>轉帳號碼後五碼: </label>
+		<input type="text" class="form-control postnum" required></input>
+		<label>備註: </label>
+		<textarea type="text" class="form-control note"></textarea>
+		<button type="button" class="btn btn-primary submit" style="float:left; margin-top: 10px;">確認送出</button>
+		<div class="print" style="margin-left:10px;float:left; font-size:20px;color:#F00;margin-top:10px;"></div>
+	</form>
+</div>
+<script>
+$(document).ready(function(){
+	var print=$('div.print');
+	var form=$('#register');
+	var submit=form.find('.submit'); 
+	submit.click(function(){
+		var postnum=form.find('.postnum').val();
+		var note=form.find('.note').val();
+		if(postnum==''){
+			print.text('請輸入郵局後五碼');
+			return;
+		}
+		$.post('/register',{
+			'step':3,
+			'postnum':postnum,
+			'note':note
+		},function(res){
+			if(res=='Enoexist'){
+				print.text('請先填寫 Step 2');
+				window.location='/register?step=2';
+			}else if(res=='Eexist'){
+				print.text('請勿重複填寫');
+				window.location='/';
+			}else if(res[0]=='E'){
+				print.text('something wrong');
+			}else{
+				print.css('color','green');
+				alert('完成報名 Step 3 你的報名序號為: '+res);
+				window.location='/';
+			}
+		});
+	});
+});
+</script>
+{% end %}

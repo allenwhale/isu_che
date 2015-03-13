@@ -1,0 +1,25 @@
+{% extends '../http/index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="news_page.css">
+{% end %}
+{% block content %}
+<div class="container" style="width: 970px;">
+	<div class="row">
+		<div class="col-sm-8 blog-main">
+			<div class="blog-post">
+				<h3 class="blog-post-title">{{ meta['title'] }}{% if int(meta['top']) == 1%}<div class="ui red horizontal label">置頂</div>{% end %}</h3>
+				<p class="blog-post-meta">發布時間: {{ meta['time'] }}</p>
+				<p>{{meta['content']}}</p>
+				<p>附件連結</p>
+				<ul>
+					{% for href in meta['attachment'] %}
+					<li>
+						<a href="{{href[1]}}">{{href[0]}}: {{href[1]}}</a>
+					</li>
+					{% end %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+{% end %}
