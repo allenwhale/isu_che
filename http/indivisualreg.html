@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="register.css">
 {% end %}
 {% block content %}
-<div class="container"><form class="form-register">
+<form class="form-register">
 	<h2>線上報名系統</h2>
 	<table class="table table-bordered">
 		<thead>
@@ -360,9 +360,9 @@
 			</tr>
 		</tbody>
 	</table>
-	<button type="button" class="btn btn-primary submit" style="float: left;">Submit</button>
+	<button type="button" class="btn btn-primary submit" style="float: left;">送出</button>
 	<div style="float: left;padding-left: 10px; padding-top: 5px; font-size: 16px; color:#F00" class="print"></div>
-</form></div>
+</form>
 <script>
 $(document).ready(function(){
 	var print=$('div.print');
@@ -512,12 +512,15 @@ $(document).ready(function(){
 			'invoice':invoice,
 			'vat':vat,
 		},function(res){
-			if(res=='Eexist'){
+			if(res=='Eexistname'){
 				print.text('此姓名已註冊');
-			}else if(res[0]=='E'){
+            }else if(res == 'Eexistemail'){
+                print.text('此Email已被註冊過');
+            }else if(res[0]=='E'){
 				print.text('Something Wrong');
 			}else{
 				alert('您的報名編號為 '+res);
+                window.location = '/';
 			}
 		});
 	});

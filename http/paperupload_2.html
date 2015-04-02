@@ -205,7 +205,6 @@ function autogrow(textarea){
 
 }
 </script>
-<div class="container">
 	<form class="form-upload">
 		{% if abstract == None %}
 		<h2 class="form-heading">論文摘要上傳</h2>
@@ -329,81 +328,28 @@ function autogrow(textarea){
 					<td><input class="form-control title" value={{ abstract['title'] }}></input></td>
 				</tr>
 				<tr>
+					<td>發表方式*</td>
+					<td>
+                        <input class=" op" type="radio" name="op"></input>英文競賽
+                        <input class=" op" type="radio" name="op"></input>海報
+                    </td>
+				</tr>
+				<tr>
 					<td>計畫編號</td>
 					<td><input class="form-control number" value={{ abstract['number'] }}></input></td>
 				</tr>
+                <tr>
+                    <td>作者姓名*</td>
+                    <td><input class="form-control author"></input></td>
+                </tr>
 				<tr>
-					<td>關鍵字<button type="button" class="btn btn-success add" style="float: right;">添加</button></td>
-					<td><input class="form-control keyword" value={{ abstract['keyword'][0] }}></input></td>
+					<td>摘要上傳*</td>
+                    <td><input type="file"></input></td>
 				</tr>
-				{% for i in range(1, len(abstract['keyword'])) %}
-				<tr>
-					<td>關鍵字<button type="button" class="btn btn-danger del" style="float: right;">刪除</button></td>
-					<td><input class="form-control keyword" value={{ abstract['keyword'][i] }}></input></td>
-				</tr>
-				{% end %}
-				<tr>
-					<td>
-						摘要(請勿超過300字)*
-						<br>
-						<br>
-						目前字數:<div class="count" style="float: right"></div>
-					</td>
-					<td><textarea class="form-control abstract" onkeyup="autogrow(this);">{{ abstract['abstract'] }}</textarea></td>
-				</tr>
-				{% set i = 0 %}
-				{% for a in abstract['author'] %}
-				<tr>
-					<td colspan=2><strong>作者</strong>{% if i == 0 %}<button type="button" style="float: right;" class="btn btn-success add-auth">新增作者</button>{% end %}</td>
-				</tr>
-				{% set i = i + 1 %}
-				<tr>
-					<td>姓名*</td>
-					<td>
-						<input class="form-control first-name" style="width: 50%;float: left;" placeholder="名" value={{ a['first_name'] }}></input>
-						<input class="form-control last-name" style="width: 50%;float: left;" placeholder="姓" value={{ a['last_name'] }}></input>
-					</td>
-				</tr>
-				<tr>
-					<td>職稱*</td>
-					<td>
-						<select class="form-control position">
-							<option value="Prof." {% if a['position'] == 'Prof.' %}selected{% end %}>Prof.</option>
-							<option value="Dr." {% if a['position'] == 'Dr.' %}selected{% end %}>Dr.</option>
-							<option value="Mr." {% if a['position'] == 'Mr.' %}selected{% end %}>Mr.</option>
-							<option value="Mrs." {% if a['position'] == 'Mrs.' %}selected{% end %}>Mrs.</option>
-							<option value="Ms." {% if a['position'] == 'Ms.' %}selected{% end %}>Ms.</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>系所(單位)*</td>
-					<td><input class="form-control department" value={{ a['department'] }}></input></td>
-				</tr>
-				<tr>
-					<td>學校(公司)*</td>
-					<td><input class="form-control affiliation" value={{ a['affiliation'] }}></input></td>
-				</tr>
-				<tr>
-					<td>附加資料*</td>
-					<td>
-						<select class="form-control addition">
-							<option value="通訊作者" {% if a['addition'] == '通訊作者' %}selected{% end %}>通訊作者</option>
-							<option value="參與會議發表者" {% if a['addition'] == '參與會議發表者' %}selected{% end %}>參與會議發表者</option>
-							<option value="皆非" {% if a['addition'] == '皆非' %}selected{% end %}>皆非</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Email</td>
-					<td><input class="form-control email" value={{ a['email']}}></input></td>
-				</tr>
-				{% end %}
 			</tbody>
 		</table>
 		<button  type="button" class="btn btn-primary submit" style="float: left;">送出</button>
 		<div style="float: left; margin-left: 10px; color: red;" class="print"></div>
 		{% end %}
 	</form>
-</div>
 {% end %}

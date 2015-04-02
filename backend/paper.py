@@ -10,7 +10,7 @@ class PaperService:
 
     def login(self, email, password):
         cur = yield self.db.cursor()
-        yield cur.execute('SELECT "account"."uid" FROM "account" WHERE "account"."email" = %s',
+        yield cur.execute('SELECT "register"."rid" FROM "register" WHERE "register"."email" = %s',
                 (email,))
         if cur.rowcount != 1:
             return ('Eaccount', None)
@@ -31,10 +31,11 @@ class PaperHandler(RequestHandler):
         if req == 'login':
             email = self.get_argument('email')
             password = self.get_argument('password')
+            password = str(int(str(password)))
             err, uid = yield from PaperService.inst.login(email, password)
             if err:
                 self.finish(err)
                 return
             self.set_secure_cookie('uid', str(uid), httponly=True, expires=time.time()+3600)
-            self.finish('S')
+            self.finish(str(uid))
         pass

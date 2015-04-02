@@ -17,114 +17,116 @@ $(document).ready(function(){
         },function(res){
             if(res[0] == 'E'){
                 alert(res);
-            }else if(res[0] == 'S'){
+            }else{
                 window.location = '/paperupload';
             }
         });
     });
 });
 </script>
-<div class="container">
-	<div class="example">
-		<h2 class="ui header">壁報論文</h2>
-		<div class="tab demo">
-			<div class="ui secondary menu">
-				<a data-tab="first" class="item active">投稿須知</a>
-				<a data-tab="second" class="item">摘要格式</a>
-				<a data-tab="third" class="item">論文摘要上傳</a>
-				<a data-tab="fifth" class="item">壁報張貼場次</a>
+<div class="example">
+	<h2 class="ui header">壁報論文</h2>
+	<div class="tab demo">
+		<div class="ui secondary menu">
+			<a data-tab="first" class="item active">投稿須知</a>
+			<a data-tab="second" class="item">摘要格式</a>
+			<a data-tab="third" class="item">論文摘要上傳</a>
+			<a data-tab="fifth" class="item">壁報張貼場次</a>
+		</div>
+		<div data-tab="first" class="ui tab segment active">
+			<div class="ui top attached tabular menu">
+				<a data-tab="first/a" class="active item">論文投稿</a>
+				<a data-tab="first/b" class="item">壁報論文展覽</a>
 			</div>
-			<div data-tab="first" class="ui tab segment active">
-				<div class="ui top attached tabular menu">
-					<a data-tab="first/a" class="active item">論文投稿</a>
-					<a data-tab="first/b" class="item">壁報論文展覽</a>
-				</div>
-				<div data-tab="first/a" class="ui bottom attached active tab segment">
-					1.投稿作者必須先報名成功，才能使用投稿論文功能，進行論文投稿。<br/>
-					2.<font color=red>每位註冊者至多可以投一篇論文。</font><br/>
-					3.基於智慧財產權之保護，論文投稿之作者必須為該篇論文之作者群之一以示負責。<br/>
-					4.投稿論文如獲科技部或其他單位補助之計畫請填寫計畫編號。<br/>
-					5.<font color=red>上傳之投稿論文之摘要格式請依論文摘要格式撰寫，其檔案格式為.doc，並用英文為檔案名稱，最大檔案限制2M。</font><br/>
-					6.填寫投稿論文之相關資料後，請依序檢查論文基本資料、作者資料、上傳之摘要檔確認無誤後，才送出資料。<br/>
-					7.論文狀態在尚未初審時，投稿作者可自行修改論文基本資料、作者資料、投稿論文摘要，進入初審後，將根據初審結果，允許部份修改論文資料。<br/>
-					8.投稿論文若審查結果為不接受投稿，可於論文投稿截止前重新投稿。若投稿已經結束則不接受重新投稿。<br/>
-					9.<font color=blue>凡參加投稿成功之論文摘要，將無任何條件與不須簽署同意授權書，即同意本年會刊登於論文集與科技部虛擬展場中。</font><br/>
-					10.<font color=red>已完成投搞手續，如於XX月XX前未接獲任何通知，請儘速與XXX 教授聯繫。</font><br/>
-					11. 如有相關投稿問題，請與 XXX 教授聯繫。e-mail：(xxxx@isu.edu.tw)；電話：07-6577711分機xxxx<br/>
-				</div>
-				<div data-tab="first/b" class="ui bottom attached tab segment">
-					<strong>A 壁報論文展示時間及壁報規格：</strong><br/>
-					<blockquote>
-						(1) 壁報論文之展示時間<br/>
-						<blockquote style="color:red;"><strong>
+			<div data-tab="first/a" class="ui bottom attached active tab segment">
+				1.投稿作者必須先報名成功，才能使用投稿論文功能，進行論文投稿。<br/>
+				2.<font color=red>每位註冊者至多可以投一篇論文。</font><br/>
+				3.基於智慧財產權之保護，論文投稿之作者必須為該篇論文之作者群之一以示負責。<br/>
+				4.投稿論文如獲科技部或其他單位補助之計畫請填寫計畫編號。<br/>
+				5.<font color=red>上傳之投稿論文之摘要格式請依論文摘要格式撰寫，其檔案格式為.doc，並用英文為檔案名稱，最大檔案限制2M。</font><br/>
+				6.填寫投稿論文之相關資料後，請依序檢查論文基本資料、作者資料、上傳之摘要檔確認無誤後，才送出資料。<br/>
+				7.論文狀態在尚未初審時，投稿作者可自行修改論文基本資料、作者資料、投稿論文摘要，進入初審後，將根據初審結果，允許部份修改論文資料。<br/>
+				8.投稿論文若審查結果為不接受投稿，可於論文投稿截止前重新投稿。若投稿已經結束則不接受重新投稿。<br/>
+				9.<font color=blue>凡參加投稿成功之論文摘要，將無任何條件與不須簽署同意授權書，即同意本年會刊登於論文集與科技部虛擬展場中。</font><br/>
+				10.<font color=red>摘要投稿截止日期為9月15日</font>；已完成投稿手續而於9月30日前未接獲任何通知者，請儘速與義守大學化工系洪哲穎教授聯繫。<br/>
+				11.如有相關投稿問題，請與 洪哲穎 教授聯繫。e-mail：(jyhoung@isu.edu.tw)；電話：07-6577711分機 7915<br/>
+			</div>
+			<div data-tab="first/b" class="ui bottom attached tab segment">
+				<strong>A 壁報論文展示時間及壁報規格：</strong><br/>
+				<blockquote>
+					(1) 壁報論文之展示時間<br/>
+					<blockquote style="color:red;"><strong>
 							A, B, D, H組: XX月XX日(星期五) 13:30~17:30<br/>
 							F, J, K, L組: XX月XX日(星期六) 9:30~12:20<br/>
 							C, E, G, I組: XX月XX日(星期六) 12:40~16:15<br/>
-						</strong></blockquote>
-						(2) 壁報板尺寸為： 100 cm (W) × 200 cm (H) 的直立式板子，建議壁報製作<font color=blue>A0尺寸(84 cm (W) × 119 cm (H))</font>。壁報內容可包括：題目、作者、單位、摘要、方法、結果、結論。<br/>
-						(3) 壁報論文作者應於展覽時間開始前將壁報張貼於規定之壁報架上，展覽時間結束方可帶回。<br/>
-					</blockquote>
-					<strong>B. 壁報論文競賽規定：</strong><br/>
-					<blockquote>
-						<font style="background-color:yellow;">(1) 壁報口頭發表時間<br/></font>
-						<blockquote style="color:red;"><strong>
+					</strong></blockquote>
+					(2) 壁報板尺寸為： 100 cm (W) × 200 cm (H) 的直立式板子，建議壁報製作<font color=blue>A0尺寸(84 cm (W) × 119 cm (H))</font>。壁報內容可包括：題目、作者、單位、摘要、方法、結果、結論。<br/>
+					(3) 壁報論文作者應於展覽時間開始前將壁報張貼於規定之壁報架上，展覽時間結束方可帶回。<br/>
+				</blockquote>
+				<strong>B. 壁報論文競賽規定：</strong><br/>
+				<blockquote>
+					<font style="background-color:yellow;">(1) 壁報口頭發表時間<br/></font>
+					<blockquote style="color:red;"><strong>
 							A, B, D, H組: XX月XX日(星期五) 15:00 ~ 17:00<br/>
 							F, J, K, L組: XX月XX日(星期六) 10:00~12:00<br/>
 							C, E, G, I組: XX月XX日(星期六) 13:00~15:00<br/>
-						</strong></blockquote>
-						(2) 每篇壁報論文競賽的代表作者於壁報口頭發表時間，在壁報旁進行5分鐘口頭報告。壁報論文選拔委員會綜合現場展示與口頭報告，評選出得獎名單。<br/>
-						(3) 若壁報代表作者在<font color=blue>口頭報告時間開始5分鐘之內尚未將壁報張貼於壁報板上，或壁報作者在口頭報告時間內不在壁報旁邊，將會喪失壁報論文競賽資格。</font><br/>
-					</blockquote>
-					<strong>C. 壁報論文獎項：</strong><br/>
-					<blockquote>
-						每一主題之壁報論文評比選出優等及佳作<br/>
-						● 優等：每名頒發獎金1000元及獎狀乙紙<br/>
-						● 佳作：每名頒發獎狀乙紙<br/>
-						<font color=red>得獎者須將<strong>報告檔案(PPT或PDF)</strong>留給2015化工年會建檔，簽署<a>同意授權書</a>，無任何條件同意授權本年會刊登於論文集與科技部虛擬展場中。</font><br/>
-					</blockquote>
-					<strong>D. 壁報論文展示地點：</strong><br/>
-					<blockquote>
-						<font color=red style="background-color:yellow;"><strong>義大皇家飯店B1展示空間。</strong></font><br/>
-					</blockquote>
-					<strong>E. 頒獎及地點：</strong><br/>
-					<blockquote>
+					</strong></blockquote>
+					(2) 每篇壁報論文競賽的代表作者於壁報口頭發表時間，在壁報旁進行5分鐘口頭報告。壁報論文選拔委員會綜合現場展示與口頭報告，評選出得獎名單。<br/>
+					(3) 若壁報代表作者在<font color=blue>口頭報告時間開始5分鐘之內尚未將壁報張貼於壁報板上，或壁報作者在口頭報告時間內不在壁報旁邊，將會喪失壁報論文競賽資格。</font><br/>
+				</blockquote>
+				<strong>C. 壁報論文獎項：</strong><br/>
+				<blockquote>
+					每一主題之壁報論文評比選出優等及佳作<br/>
+					● 優等：每名頒發獎金1000元及獎狀乙紙<br/>
+					● 佳作：每名頒發獎狀乙紙<br/>
+					<font color=red>得獎者須將<strong>報告檔案(PPT或PDF)</strong>留給2015化工年會建檔，簽署<a>同意授權書</a>，無任何條件同意授權本年會刊登於論文集與科技部虛擬展場中。</font><br/>
+				</blockquote>
+				<strong>D. 壁報論文展示地點：</strong><br/>
+				<blockquote>
+					<font color=red style="background-color:yellow;"><strong>義大皇家飯店B1展示空間。</strong></font><br/>
+				</blockquote>
+				<strong>E. 頒獎及地點：</strong><br/>
+				<blockquote>
 					得獎之壁報論文代表作者將於<font color=red style="background-color:yellow;"><strong>義大皇家飯店演講廳</strong></font>閉幕典禮上由主席及貴賓公開頒獎。<br/>
 					如有相關問題，請與 <font color=blue>XXX教授聯繫</font> e-mail: <a >XXX@isu.edu.tw</a> ；電話：07-6577711分機XXXX<br/>
-					</blockquote>
-				</div>
-			</div>
-			<div data-tab="second" class="ui tab segment">
-				1. 版面設定：論文請以A4規格21cm*29.5cm編排，本文版面規格: 版面上下界2.54 cm， 左界3.18cm，右界3.18cm；內文段落採1.5間距（此為MS Word預設格式），字元間距設為標準，不要使用加寬或緊縮。<br/>
-				2. 字型設定：中英文皆可；中文請以標楷體、英文及數字請以Times New Roman書寫。。<br/>
-				3. 字體大小：論文標題採14號粗體字，作者姓名、任職單位採12號字，摘要、關鍵字內文採12號字。<br/>
-				4. 計畫編號：若為科技部或其他單位計畫成果，請於作者下方註明計畫編號。<br/>
-				5. 摘要以500字為限，關鍵字以5個詞彙為限，詞彙之間以頓號分隔。<br/>
-				6. <a>論文摘要格式範例</a><br/>
-				7. <font color=red>請註明：論文主題、發表方式。</font><br/>
-			</div>
-            <div data-tab="third" class="ui tab segment">
-                <div class="container">
-                    <!--a href="/paperupload">論文摘要上傳</a-->
-                    如果是第一次進入此網站，請先至<a href="/register#/second">線上個人報名系統</a>報名
-                    <form id="login" class="form-upload">
-                        <h2 class="form-heading">登入</h2>
-                        <label>Email</label>
-                        <input type="text" class="form-control email"></input>
-                        <label>Password(為報名代號)</label>
-                        <input type="password" class="form-control password"></input>
-                        <button type="button" class="btn btn-primary submit">送出</button>
-                    </form>
-                </div>
-                <div class="container">
-                    <h3>Submission Format </h3>
-                    <p>
-                    請遵照要求格式透過此網站送出您的摘要，如果需要任何幫助請聯絡yhm@isu.edu.tw。
-                    </p>
-                    <a class="btn btn-primary" href="#">Download</a>
-                </div>
-			</div>
-			<div data-tab="fifth" class="ui tab segment">壁報張貼場次
+				</blockquote>
 			</div>
 		</div>
+		<div data-tab="second" class="ui tab segment">
+			1. 版面設定：論文請以A4規格21cm*29.5cm編排，本文版面規格: 版面上、下界2 cm， 左、右界2.5 cm；內文段落採單行間距，字元間距設為標準，不要使用加寬或緊縮。<br/>
+			2. 字型設定：以Times New Roman字型書寫之英文摘要。<br/>
+			3. 字體大小：論文標題採14號粗體字，其餘皆為12號字。<br/>
+			4. 作者格式：請於報告人作者姓名下加入底線，負責作者請加入上標 * 符號，並請提供負責作者之電子郵件地址。<br/>
+			5. 計畫編號：可於作者下方註明計畫編號。<br/>
+			7. 一個摘要只提供A4規格半頁之空間，摘要以300字為限，請勿加入關鍵字、數據圖表、參考文獻等。<br/>
+			8. <a>論文摘要格式範例</a><br/>
+			7. <font color=red>請註明：論文主題、發表方式。</font><br/>
+		</div>
+		<div data-tab="third" class="ui tab segment">
+			<div class="container">
+				<!--a href="/paperupload">論文摘要上傳</a-->
+				如果是第一次進入此網站，請先至<a href="/register#/second">線上個人報名系統</a>報名
+				<form id="login" class="form-upload">
+					<h2 class="form-heading">登入</h2>
+					<label>Email</label>
+					<input type="text" class="form-control email" style="max-width: 60%;"></input>
+					<label>Password(為報名代號)</label>
+					<input type="password" class="form-control password" style="max-width: 60%;"></input>
+					<button type="button" class="btn btn-primary submit">送出</button>
+					<button type="button" class="btn btn-warning forget">忘記密碼</button>
+
+				</form>
+			</div>
+			<div class="container">
+				<h3>Submission Format </h3>
+				<p>
+				請遵照要求格式透過此網站送出您的摘要，如果需要任何幫助請聯絡yhm@isu.edu.tw。
+				</p>
+				<a class="btn btn-primary" href="/Abstract teamplate.doc">Download</a>
+			</div>
+		</div>
+		<div data-tab="fifth" class="ui tab segment">壁報張貼場次
+		</div>
+	</div>
 </div>
 {% end %}

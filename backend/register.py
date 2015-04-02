@@ -14,7 +14,10 @@ class RegisterService():
         cur = yield self.db.cursor()
         yield cur.execute('SELECT 1 FROM "register" WHERE "register"."name" = %s;',(name,))
         if cur.rowcount != 0:
-            return ('Eexist',None)
+            return ('Eexistname',None)
+        yield cur.execute('SELECT 1 FROM "register" WHERE "register"."name" = %s;',(name,))
+        if cur.rowcount != 0:
+            return ('Eexistemail',None)
         yield cur.execute('INSERT INTO "register" ( "name","title","affiliation",'
                 '"department","address","postcode","email","phone","fax","cellphone",'
                 '"member","package","banquet","total","food","food_date1","food_date2",'

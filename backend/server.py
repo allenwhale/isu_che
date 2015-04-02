@@ -65,6 +65,7 @@ if __name__ == '__main__':
         ('/sponsor',SponsorHandler),
         ('/company',CompanyHandler),
         ('/venue',VenueHandler),
+        ('/venue/(.*)',VenueHandler),
         ('/traffic',TrafficHandler),
         ('/indivisualreg',IndivisualregHandler),
         ('/paperupload',PaperuploadHandler),
