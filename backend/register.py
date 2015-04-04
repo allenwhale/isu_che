@@ -1,6 +1,7 @@
 from req import RequestHandler
 from req import reqenv
 from req import Service
+from mail import MailHandler
 
 class RegisterService():
     def __init__(self,db):
@@ -15,7 +16,7 @@ class RegisterService():
         yield cur.execute('SELECT 1 FROM "register" WHERE "register"."name" = %s;',(name,))
         if cur.rowcount != 0:
             return ('Eexistname',None)
-        yield cur.execute('SELECT 1 FROM "register" WHERE "register"."name" = %s;',(name,))
+        yield cur.execute('SELECT 1 FROM "register" WHERE "register"."email" = %s;',(email,))
         if cur.rowcount != 0:
             return ('Eexistemail',None)
         yield cur.execute('INSERT INTO "register" ( "name","title","affiliation",'
@@ -77,5 +78,7 @@ class IndivisualregHandler(RequestHandler):
         if err:
             self.finish(err)
             return
+        m = MailHandler('../http/register_mail.html')
+        m.send(to=email, subject='台灣化學工程學會62th年會報名確認', rid='%04d'%rid)
         self.finish('%04d'%int(rid))
         return

@@ -16,7 +16,6 @@ class RequestHandler(tornado.web.RequestHandler):
         #self.db = kwargs.pop('db')
         #self.rs = kwargs.pop('rs')
         #self.ars = kwargs.pop('ars')
-        self.mail = kwargs.pop('mail')
         super().__init__(*args,**kwargs)
 
         try:

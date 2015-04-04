@@ -22,7 +22,6 @@ from venue import VenueHandler
 from traffic import TrafficHandler
 from paperupload import PaperuploadHandler
 from paperupload import PaperuploadService
-from mail import MailHandler
 from req import Service
 from req import reqenv
 from req import RequestHandler
