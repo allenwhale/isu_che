@@ -7,36 +7,48 @@ class PaperuploadService:
         self.db = db
         PaperuploadService.inst = self
 
-    def upload(self,rid,name,theme,competition,title,author,affiliation,number,f):
+    def upload(self, uid, topic, title, author, number, op, f):
         cur = yield self.db.cursor()
-        yield cur.execute('SELECT 1 FROM "paper" WHERE "paper"."rid" = %s;',(rid,))
-        if cur.rowcount != 0:
-            return('Eexist',None)
-        yield cur.execute('SELECT 1 FROM "register" WHERE "register"."rid" = %s;',(rid,))
-        if cur.rowcount != 1:
-            return ('Enoexist',None)
-        yield cur.execute('INSERT INTO "paper" ("rid","name","theme","competition",'
-                '"title","author","affiliation","number") '
-                'VALUES(%s,%s,%s,%s,%s,%s,%s,%s);',
-                (rid,name,theme,competition,title,author,affiliation,number))
-        if cur.rowcount != 1:
-            return ('EDB',None)
-        yield cur.execute('SELECT COUNT(*) FROM "paper" '
-                'WHERE "paper"."theme" = %s AND "paper"."competition" = %s;',(theme,competition))
-        if cur.rowcount != 1:
-            return ('EDB',None);
-        pid = str(cur.fetchone()[0])
-        filename = theme+'-'+'P-'+('%03d'%int(pid))+'-'+('Y' if int(competition)==1 else 'N')+'-'+name+'.'+f.filename.split('.')[-1]
-        yield cur.execute('UPDATE "paper" set filename = %s,pid = %s WHERE "paper"."rid" = %s;',
-                (filename,pid,rid))
-        if cur.rowcount != 1:
-            return('EDB',None)
-        path = '../http/paper/'+filename
-        _f = open(path,'wb')
-        _f.write(f['body']) 
-        _f.close()
-        return (None,pid)
+        yield cur.execute('SELECT "aid" FROM "abstract" WHERE "uid" = %s;', (uid,))
+        if cur.rowcount == 0:#new
+            if f == None:
+                return ('Enofile', None)
+            yield cur.execute('INSERT INTO "abstract" ("uid", "topic", "title", "author", "number", "op") VALUES (%s, %s, %s, %s, %s, %s) RETURNING "aid";', (uid, topic, title, author, number, op))
+            if cur.rowcount != 1:
+                return ('EDB', None)
+            aid = str(cur.fetchone()[0])
+            path = '../http/paper/' + aid + '.' + f['filename'].split('.')[-1]
+            _f = open(path, 'wb+')
+            _f.write(f['body'])
+            _f.close()
+            return (None, aid)
+        else:#edit
+            yield cur.execute('UPDATE "abstract" SET "uid" = %s, "topic" = %s, "title" = %s, "author" = %s, number = %s, "op" = %s RETURNING "aid";', (uid, topic, title, author, number, op))
+            if cur.rowcount != 1:
+                return ('EDB', None)
+            aid = str(cur.fetchone()[0])
+            if f:
+                path = '../http/paper/' + aid + '.' + f['filename'].split('.')[-1]
+                _f = open(path, 'wb+')
+                _f.write(f['body'])
+                _f.close()
+            return (None, aid)
 
+    def get_abstract_info(self, uid):
+        cur = yield self.db.cursor()
+        yield cur.execute('SELECT "aid", "topic", "title", "author", "number", "op" FROM "abstract" WHERE "uid" = %s;', (uid,))
+        if cur.rowcount != 1:
+            return ('EDB', None)
+        meta = cur.fetchone()
+        meta = {'aid': str(meta[0]),
+                'topic': str(meta[1]),
+                'title': str(meta[2]),
+                'author': str(meta[3]),
+                'number': str(meta[4]),
+                'op' : str(meta[5])
+                }
+        return (None, meta)
+'''
     def upload(self, uid, topic, title, number, keyword, abstract, author):
         cur = yield self.db.cursor()
         yield cur.execute('SELECT "abstract"."aid" FROM "abstract" WHERE "abstract"."uid" = %s ', (uid,))
@@ -88,7 +100,6 @@ class PaperuploadService:
             if cur.rowcount != 1:
                 return ('EDB', None)
         return (None, aid)
-
     def get_abstract_info(self, uid):
         cur = yield self.db.cursor()
         yield cur.execute('SELECT "abstract"."aid" ,"abstract"."topic", "abstract"."title", "abstract"."number", "abstract"."abstract" '
@@ -132,6 +143,7 @@ class PaperuploadService:
         for (k,) in cur:
             res.append(k)
         return res
+'''
 
 
 class PaperuploadHandler(RequestHandler):
@@ -143,10 +155,11 @@ class PaperuploadHandler(RequestHandler):
             return
         uid = str(int(uid))
         err, abstract = yield from PaperuploadService.inst.get_abstract_info(uid)
+        #abstract = None
         self.render('../http/paperupload_2.html',acct=self.acct, abstract=abstract)
         return
 
-    @reqenv
+    '''@reqenv
     def post(self):
         uid = self.get_secure_cookie('uid')
         if not uid:
@@ -171,24 +184,29 @@ class PaperuploadHandler(RequestHandler):
             self.finish(err)
             return
         self.clear_cookie('uid')
-        self.finish(str(aid))
-'''
+        self.finish(str(aid))'''
+
     @reqenv
     def post(self):
-        f = self.request.files['paper'][0]
-        rid = str(self.get_argument('rid'))
-        name = str(self.get_argument('name'))
-        theme = str(self.get_argument('theme'))
-        competition = str(self.get_argument('competition'))
+        uid = self.get_secure_cookie('uid')
+        if not uid:
+            self.finish('Elogin')
+            return
+        uid = str(int(uid))
+        topic = str(self.get_argument('topic'))
         title = str(self.get_argument('title'))
+        op = str(self.get_argument('op'))
+        print(op)
         author = str(self.get_argument('author'))
-        affiliation = str(self.get_argument('affiliation'))
         number = str(self.get_argument('number'))
-        err,pid = yield from PaperuploadService.inst.upload(rid,name,theme,
-                competition,title,author,affiliation,number,f)
+        try:
+            f = self.request.files['attach'][0]
+        except:
+            f = None
+        print(f)
+        err, aid = yield from PaperuploadService.inst.upload(uid, topic, title, author, number, op, f)
         if err:
             self.finish(err)
             return
-        self.finish(str(pid))
+        self.finish(str(aid))
         return
-'''

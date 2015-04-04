@@ -7,203 +7,64 @@
 {% end %}
 {% block content %}
 <script>
-$(document).ready(function(){
-	if($('textarea.abstract').val())$('div.count').text($('textarea.abstract').val().replace( /^\s+|\s+$/g, '' ).split(' ').length);
-	{% if abstract == None %}
-	var keyword_num = 1;
-	{% else %}
-	var keyword_num = {{ len(abstract['keyword']) }};
-	{% end %}
-	$('button.add').click(function(){
-		if(keyword_num >  4){
-			alert('最多4個關鍵字');
-			return;
-		}
-		var html = '<tr><td>關鍵字<button type="button" class="btn btn-danger del" style="float: right;">刪除</button></td><td><input class="form-control keyword"></input></td></tr>';
-		$(this).parent().parent().after(html);
-		keyword_num++;
-		$('button.del').click(function(){
-			$(this).parent().parent().remove();
-		});
-	});
-	$('button.del').click(function(){
-		$(this).parent().parent().remove();
-	});
-	$('textarea.abstract').keyup(function(){
-		var len = $('textarea.abstract').val().replace( /^\s+|\s+$/g, '' ).split(/\s+/).length;
-		if($('textarea.abstract').val().replace( /^\s+|\s+$/g, '' ) == '')len--;
-		var html = '';
-		if(len > 300){
-			html = '<font color=red>' + len + '</font>';
-		}else{
-			html = len;
-		}
-		$('div.count').html(html);
-	});
-	$('button.add-auth').click(function(){
-			var html = '<tr><td colspan=2><strong>作者</strong></td></tr><tr><td>姓名*</td><td><input class="form-control first-name" style="width: 50%;float: left;" placeholder="名"></input><input class="form-control last-name" style="width: 50%;float: left;" placeholder="姓"></input></td></tr><tr><td>職稱*</td><td><select class="form-control position"><option value="Prof.">Prof.</option><option value="Dr.">Dr.</option><option value="Mr.">Mr.</option><option value="Mrs.">Mrs.</option><option value="Ms.">Ms.</option></td></tr><tr><td>系所(單位)*</td><td><input class="form-control department"></input></td></tr><tr><td>學校(公司)*</td><td><input class="form-control affiliation"></input></td></tr><tr><td>附加資料*</td><td><select class="form-control addition"><option value="通訊作者">通訊作者</option><option value="參與會議發表者">參與會議發表者</option><option value="皆非">皆非</option></select></td></tr><tr><td>Email</td><td><input class="form-control email"></input></td></tr>';
-						
-		$('tbody#paperupload').append(html);
-	});
-	$('button.submit').click(function(){
-		var topic = $('select.topic').val();
-		var title = $('input.title').val() || '';
-		var num = $('input.number').val() || '';
-		var keyword = Array();
-		$('input.keyword').each(function(){
-			keyword.push($(this).val() || '');
-		});
-		var abstract = $('textarea.abstract').val() || '';
-		var len = $('textarea.abstract').val().replace( /^\s+|\s+$/g, '' ).split(/\s+/).length;
-		var first_name = Array();
-		var last_name = Array();
-		var position = Array();
-		var department = Array();
-		var affiliation = Array();
-		var addition = Array();
-		var email = Array();
-		$('input.first-name').each(function(){
-			first_name.push($(this).val() || '');
-		});
-		$('input.last-name').each(function(){
-			last_name.push($(this).val() || '');
-		});
-		$('select.position').each(function(){
-			position.push($(this).val() || '');
-		});
-		$('input.department').each(function(){
-			department.push($(this).val() || '');
-		});
-		$('input.affiliation').each(function(){
-			affiliation.push($(this).val() || '');
-		});
-		$('select.addition').each(function(){
-			addition.push($(this).val() || '');
-		});
-		$('input.email').each(function(){
-			email.push($(this).val() || '');
-		});
-		if(title == ''){
-			alert('請輸入論文標題');
-			return;
-		}else if(abstract == ''){
-			alert('請輸入摘要');
-			return;
-		}else if(len > 300){
-			alert('請縮短摘要長度');
-			return;
-		}
-		for(i in first_name){
-			if(first_name[i] == ''){
-				alert('請輸入姓名');
-				return;
-			}
-		}
-		for(i in last_name){
-			if(last_name[i] == ''){
-				alert('請輸入姓名');
-				return;
-			}
-		}
-		for(i in department){
-			if(department[i] == ''){
-				alert('請輸入系所(單位)');
-				return;
-			}
-		}
-		for(i in affiliation){
-			if(affiliation[i] == ''){
-				alert('請輸入學校(公司)');
-				return;
-			}
-		}
-		/*var confirm_data = '主題: ' + topic + '<br>';
-		confirm_data += '論文標題: ' + title + '<br>';
-		confirm_data += '計畫編號: ' + num + '<br>';
-		for(k in keyword){
-			confirm_data += '關鍵字' + (parseInt(k, 10)+1) + ': ' + keyword[k] + '<br>';
-		}
-		alertify.confirm(confirm_data, function(e){
-			if(e){
-			}else{
-			}
-		});
-		confirm_data = '';
-		confirm_data += '摘要: ' + abstract + '<br>';
-		confirm_data += '---------------------------<br>';
-		alertify.confirm(confirm_data, function(e){
-			if(e){
-			}else{
-			}
-		});
-		confirm_data = '';
-		for(i in first_name){
-			confirm_data += '作者' + (parseInt(i)+1) + '<br>';
-			confirm_data += '姓名: ' + first_name[i] + ' ' + last_name[i] + '<br>';
-			confirm_data += '職稱: ' + position[i] + '<br>';
-			confirm_data += '系所(單位): ' + department[i] + '<br>';
-			confirm_data += '學校(公司): ' + affiliation[i] + '<br>';
-			confirm_data += '附加資料: ' + addition[i] + '<br>';
-			confirm_data += 'Email: ' + email[i] + '<br>';
-			confirm_data += '---------------------------<br>';
-		}
-		alertify.confirm(confirm_data, function(e){
-			if(e){
-			}else{
-			}
-		});
-		return;
-		var data = {
-			'topic': topic,
-			'title': title,
-			'number': num,
-			'keyword': keyword,
-			'abstract': abstract,
-			'first_name': first_name,
-			'last_name': last_name,
-			'position': position,
-			'department': department,
-			'affiliation': affiliation,
-			'addition': addition,
-			'email': email
-		};*/
-		var tf=false;
-		alertify.confirm('確認資料無誤?', function(e){
-			if(e){
-				$.post('/paperupload', {
-					'topic': topic,
-					'title': title,
-					'number': num,
-					'keyword[]': keyword,
-					'abstract': abstract,
-					'first_name[]': first_name,
-					'last_name[]': last_name,
-					'position[]': position,
-					'department[]': department,
-					'affiliation[]': affiliation,
-					'addition[]': addition,
-					'email[]': email
-				}, function(res){
-					if(res[0] == 'E'){
-						alert(res);
-					}else{
-						alert('成功上傳');
-						window.location = '/';
-					}
-				});
-			}
-		});
-	});
-});
-function autogrow(textarea){
-	var adjustedHeight=textarea.clientHeight;
-
-	adjustedHeight=Math.max(textarea.scrollHeight,adjustedHeight);
-	if (adjustedHeight>textarea.clientHeight){
-		textarea.style.height=adjustedHeight+'px';
-	}
-
+function progress(e){
+	var bar=$('div.progress-bar');
+	var percent=100*e.loaded/e.total;
+	bar.css('width',percent+'%');
+	bar.attr('aria-valuenow',parseInt(percent.toString(),10));
+	bar.text(percent+'%');
 }
+$(document).ready(function(){
+    $('button.submit').click(function(){
+        var topic = $('select.topic').val();
+        var title = $('input.title').val();
+        var op = $('input[name=op]:checked').val();
+        var num = $('input.number').val();
+        var author = $('input.author').val();
+        var file =document.getElementById('file');
+        if(title == ''){
+            alert('請輸入論文名稱');
+            return;
+        }else if(author == ''){
+            alert('請輸入作者');
+            return;
+        }else if(typeof(op) == 'undefined'){
+            alert('請選擇發表方式');
+            return;
+        }
+        
+		var formdata=new FormData($('form')[0]);
+		$.ajax({
+			url: '/paperupload',
+			type: 'POST',
+			xhr: function() {
+				var myXhr = $.ajaxSettings.xhr();
+				if(myXhr.upload){
+					myXhr.upload.addEventListener('progress',progress, false);
+				}
+				return myXhr;
+			},
+			beforeSend: function(){},
+			success: function(res){
+                if(res[0] == 'E'){
+                    if(res == 'Enofile'){
+                        alert('請選擇檔案');
+                        return;
+                    }else{
+                        alert('something error');
+                    }
+                }else{
+                    alert('成功上傳');
+                }
+			},
+			error: function(){},
+			data: formdata,
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+    });
+});
 </script>
 	<form class="form-upload">
 		{% if abstract == None %}
@@ -218,85 +79,47 @@ function autogrow(textarea){
 				<tr>
 					<td>主題*</td>
 					<td>
-						<select class="form-control  topic">
-							<option value="A. Biochemical and Biomedical Engineering">A. Biochemical and Biomedical Engineering</option>
-							<option value="B. Transport Phenomena and Separation Technology">B. Transport Phenomena and Separation Technology</option>
-							<option value="C. Thermodynamics and Interface Technology">C. Thermodynamics and Interface Technology</option>
-							<option value="D. Energy Technology">D. Energy Technology</option>
-							<option value="E. Material Science">E. Material Science </option>
-							<option value="F. Electochemical Technology">F. Electochemical Technology</option>
-							<option value="G. Green Chemical Technology and System Engineering">G. Green Chemical Technology and System Engineering</option>
-							<option value="H. Catalysis and Reaction Engineering">H. Catalysis and Reaction Engineering</option>
+						<select class="form-control  topic" name="topic">
+							<option value="A. Biochemical and Biomedical Engineering" >A. Biochemical and Biomedical Engineering</option>
+							<option value="B. Transport Phenomena and Separation Technology" >B. Transport Phenomena and Separation Technology</option>
+							<option value="C. Thermodynamics and Interface Technology" >C. Thermodynamics and Interface Technology</option>
+							<option value="D. Energy Technology" >D. Energy Technology</option>
+							<option value="E. Material Science" >E. Material Science </option>
+							<option value="F. Electochemical Technology" >F. Electochemical Technology</option>
+							<option value="G. Green Chemical Technology and System Engineering" >G. Green Chemical Technology and System Engineering</option>
+							<option value="H. Catalysis and Reaction Engineering" >H. Catalysis and Reaction Engineering</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<td>論文名稱*</td>
-					<td><input class="form-control title"></input></td>
+					<td><input class="form-control title" name="title"></input></td>
+				</tr>
+				<tr>
+					<td>發表方式*</td>
+					<td>
+                        <input type="radio" name="op" value="o"></input>英文競賽
+                        <input type="radio" name="op" value="p"></input>海報
+                    </td>
 				</tr>
 				<tr>
 					<td>計畫編號</td>
-					<td><input class="form-control number"></input></td>
+					<td><input class="form-control number" name="number"></input></td>
 				</tr>
+                <tr>
+                    <td>作者姓名*</td>
+                    <td><input class="form-control author" name="author"></input></td>
+                </tr>
 				<tr>
-					<td>關鍵字<button type="button" class="btn btn-success add" style="float: right;">添加</button></td>
-					<td><input class="form-control keyword"></input></td>
-				</tr>
-				<tr>
-					<td>
-						摘要(請勿超過300字)*
-						<br>
-						<br>
-						目前字數:<div class="count" style="float: right"></div>
-					</td>
-					<td><textarea class="form-control abstract" onkeyup="autogrow(this);"></textarea></td>
-				</tr>
-				<tr>
-					<td colspan=2><strong>作者</strong><button type="button" style="float: right;" class="btn btn-success add-auth">新增作者</button></td>
-				</tr>
-				<tr>
-					<td>姓名*</td>
-					<td>
-						<input class="form-control first-name" style="width: 50%;float: left;" placeholder="名"></input>
-						<input class="form-control last-name" style="width: 50%;float: left;" placeholder="姓"></input>
-					</td>
-				</tr>
-				<tr>
-					<td>職稱*</td>
-					<td>
-						<select class="form-control position">
-							<option value="Prof.">Prof.</option>
-							<option value="Dr.">Dr.</option>
-							<option value="Mr.">Mr.</option>
-							<option value="Mrs.">Mrs.</option>
-							<option value="Ms.">Ms.</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>系所(單位)*</td>
-					<td><input class="form-control department"></input></td>
-				</tr>
-				<tr>
-					<td>學校(公司)*</td>
-					<td><input class="form-control affiliation"></input></td>
-				</tr>
-				<tr>
-					<td>附加資料*</td>
-					<td>
-						<select class="form-control addition">
-							<option value="通訊作者">通訊作者</option>
-							<option value="參與會議發表者">參與會議發表者</option>
-							<option value="皆非">皆非</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Email</td>
-					<td><input class="form-control email"></input></td>
+					<td>摘要上傳*</td>
+                    <td><input name="attach" id="attach" type="file"></input></td>
 				</tr>
 			</tbody>
 		</table>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+			</div>
+		</div>
 		<button  type="button" class="btn btn-primary submit" style="float: left;">送出</button>
 		<div style="float: left; margin-left: 10px; color: red;" class="print"></div>
 		{% else %}
@@ -311,7 +134,7 @@ function autogrow(textarea){
 				<tr>
 					<td>主題*</td>
 					<td>
-						<select class="form-control  topic">
+						<select class="form-control  topic" name="topic">
 							<option value="A. Biochemical and Biomedical Engineering" {% if abstract['topic'] == 'A. Biochemical and Biomedical Engineering' %}selected{% end %}>A. Biochemical and Biomedical Engineering</option>
 							<option value="B. Transport Phenomena and Separation Technology" {% if abstract['topic'] == 'B. Transport Phenomena and Separation Technology' %}selected{% end %}>B. Transport Phenomena and Separation Technology</option>
 							<option value="C. Thermodynamics and Interface Technology" {% if abstract['topic'] == 'C. Thermodynamics and Interface Technology' %}selected{% end %}>C. Thermodynamics and Interface Technology</option>
@@ -325,29 +148,33 @@ function autogrow(textarea){
 				</tr>
 				<tr>
 					<td>論文名稱*</td>
-					<td><input class="form-control title" value={{ abstract['title'] }}></input></td>
+					<td><input class="form-control title" value={{ abstract['title'] }} name="title"></input></td>
 				</tr>
 				<tr>
 					<td>發表方式*</td>
 					<td>
-                        <input class=" op" type="radio" name="op"></input>英文競賽
-                        <input class=" op" type="radio" name="op"></input>海報
+                        <input type="radio" name="op" value="o" {% if abstract['op'] == 'o'%}checked{% end %}></input>英文競賽
+                        <input type="radio" name="op" value="p" {% if abstract['op'] == 'p'%}checked{% end %}></input>海報
                     </td>
 				</tr>
 				<tr>
 					<td>計畫編號</td>
-					<td><input class="form-control number" value={{ abstract['number'] }}></input></td>
+					<td><input class="form-control number" value="{{ abstract['number'] }}" name="number"></input></td>
 				</tr>
                 <tr>
                     <td>作者姓名*</td>
-                    <td><input class="form-control author"></input></td>
+                    <td><input class="form-control author" name="author" value="{{ abstract['author'] }}"></input></td>
                 </tr>
 				<tr>
 					<td>摘要上傳*</td>
-                    <td><input type="file"></input></td>
+                    <td><input id="attach" type="file" name="attach"></input> (若不做更改請勿上傳檔案)</td>
 				</tr>
 			</tbody>
 		</table>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+			</div>
+		</div>
 		<button  type="button" class="btn btn-primary submit" style="float: left;">送出</button>
 		<div style="float: left; margin-left: 10px; color: red;" class="print"></div>
 		{% end %}

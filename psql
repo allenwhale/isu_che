@@ -68,7 +68,8 @@ CREATE TABLE abstract(
 	topic character varying,
 	title character varying,
 	number character varying,
-	abstract character varying
+	author character varying,
+	op character varying
 );
 CREATE TABLE keyword_of_abstract(
 	kid SERIAL,
