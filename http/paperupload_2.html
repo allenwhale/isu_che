@@ -80,14 +80,14 @@ $(document).ready(function(){
 					<td>主題*</td>
 					<td>
 						<select class="form-control  topic" name="topic">
-							<option value="A. Biochemical and Biomedical Engineering" >A. Biochemical and Biomedical Engineering</option>
-							<option value="B. Transport Phenomena and Separation Technology" >B. Transport Phenomena and Separation Technology</option>
-							<option value="C. Thermodynamics and Interface Technology" >C. Thermodynamics and Interface Technology</option>
-							<option value="D. Energy Technology" >D. Energy Technology</option>
-							<option value="E. Material Science" >E. Material Science </option>
-							<option value="F. Electochemical Technology" >F. Electochemical Technology</option>
-							<option value="G. Green Chemical Technology and System Engineering" >G. Green Chemical Technology and System Engineering</option>
-							<option value="H. Catalysis and Reaction Engineering" >H. Catalysis and Reaction Engineering</option>
+							<option value="A. Biochemical and Biomedical Engineering" >A. 生化及生醫工程</option>
+							<option value="B. Transport Phenomena and Separation Technology" >B. 輸送現象及分離技術</option>
+							<option value="C. Thermodynamics and Interface Technology" >C. 熱力及界面工程 </option>
+							<option value="D. Energy Technology" >D. CO2 Capture and Utilization</option>
+							<option value="E. Material Science" >E. 材料在化工上的應用</option>
+							<option value="F. Electochemical Technology" >F. 電化學技術</option>
+							<option value="G. Green Chemical Technology and System Engineering" >G. 綠色化工技術及程序工程</option>
+							<option value="H. Catalysis and Reaction Engineering" >H. 觸媒及反應工程</option>
 						</select>
 					</td>
 				</tr>
@@ -100,6 +100,7 @@ $(document).ready(function(){
 					<td>
                         <input type="radio" name="op" value="o"></input>英文競賽
                         <input type="radio" name="op" value="p"></input>海報
+                        <input type="radio" name="op" value="i"></input>邀請演講
                     </td>
 				</tr>
 				<tr>
@@ -135,14 +136,14 @@ $(document).ready(function(){
 					<td>主題*</td>
 					<td>
 						<select class="form-control  topic" name="topic">
-							<option value="A. Biochemical and Biomedical Engineering" {% if abstract['topic'] == 'A. Biochemical and Biomedical Engineering' %}selected{% end %}>A. Biochemical and Biomedical Engineering</option>
-							<option value="B. Transport Phenomena and Separation Technology" {% if abstract['topic'] == 'B. Transport Phenomena and Separation Technology' %}selected{% end %}>B. Transport Phenomena and Separation Technology</option>
-							<option value="C. Thermodynamics and Interface Technology" {% if abstract['topic'] == 'C. Thermodynamics and Interface Technology' %}selected{% end %}>C. Thermodynamics and Interface Technology</option>
-							<option value="D. Energy Technology" {% if abstract['topic'] == 'D. Energy Technology' %}selected{% end %}>D. Energy Technology</option>
-							<option value="E. Material Science" {% if abstract['topic'] == 'E. Material Science' %}selected{% end %}>E. Material Science </option>
-							<option value="F. Electochemical Technology" {% if abstract['topic'] == 'F. Electochemical Technology' %}selected{% end %}>F. Electochemical Technology</option>
-							<option value="G. Green Chemical Technology and System Engineering" {% if abstract['topic'] == 'G. Green Chemical Technology and System Engineering' %}selected{% end %}>G. Green Chemical Technology and System Engineering</option>
-							<option value="H. Catalysis and Reaction Engineering" {% if abstract['topic'] == 'H. Catalysis and Reaction Engineering' %}selected{% end %}>H. Catalysis and Reaction Engineering</option>
+							<option value="A. Biochemical and Biomedical Engineering" {% if abstract['topic'] == 'A. Biochemical and Biomedical Engineering' %}selected{% end %}>A. 生化及生醫工程</option>
+							<option value="B. Transport Phenomena and Separation Technology" {% if abstract['topic'] == 'B. Transport Phenomena and Separation Technology' %}selected{% end %}>B. 輸送現象及分離技術</option>
+							<option value="C. Thermodynamics and Interface Technology" {% if abstract['topic'] == 'C. Thermodynamics and Interface Technology' %}selected{% end %}>C. 熱力及界面工程</option>
+							<option value="D. Energy Technology" {% if abstract['topic'] == 'D. Energy Technology' %}selected{% end %}>D. CO2 Capture and Utilization</option>
+							<option value="E. Material Science" {% if abstract['topic'] == 'E. Material Science' %}selected{% end %}>E. 材料在化工上的應用</option>
+							<option value="F. Electochemical Technology" {% if abstract['topic'] == 'F. Electochemical Technology' %}selected{% end %}>F. 電化學技術</option>
+							<option value="G. Green Chemical Technology and System Engineering" {% if abstract['topic'] == 'G. Green Chemical Technology and System Engineering' %}selected{% end %}>G. 綠色化工技術及程序工程</option>
+							<option value="H. Catalysis and Reaction Engineering" {% if abstract['topic'] == 'H. Catalysis and Reaction Engineering' %}selected{% end %}>H. 觸媒及反應工程</option>
 						</select>
 					</td>
 				</tr>
@@ -155,6 +156,7 @@ $(document).ready(function(){
 					<td>
                         <input type="radio" name="op" value="o" {% if abstract['op'] == 'o'%}checked{% end %}></input>英文競賽
                         <input type="radio" name="op" value="p" {% if abstract['op'] == 'p'%}checked{% end %}></input>海報
+                        <input type="radio" name="op" value="i" {% if abstract['op'] == 'i'%}checked{% end %}></input>邀請演講
                     </td>
 				</tr>
 				<tr>
