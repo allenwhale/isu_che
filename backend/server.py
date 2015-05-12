@@ -26,6 +26,9 @@ from req import Service
 from req import reqenv
 from req import RequestHandler
 from paper import PaperService
+from admin import AdminHandler
+from admin import AdminService
+
 
 import pg
 
@@ -69,9 +72,11 @@ if __name__ == '__main__':
         ('/traffic',TrafficHandler),
         ('/indivisualreg',IndivisualregHandler),
         ('/paperupload',PaperuploadHandler),
+        ('/admin', AdminHandler),
         ('/(.*)',tornado.web.StaticFileHandler,{'path':'../http/'})
         ],cookie_secret = 'cookie',autoescape = 'xhtml_escape')
     app.listen(88)
+    Service.Admin = AdminService(db)
     Service.News = NewsService(db)
     Service.Manage = ManageService(db)
     Service.User = UserService(db)

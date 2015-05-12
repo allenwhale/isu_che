@@ -4,18 +4,89 @@
 {% end %}
 {% block content %}
 <div class="example">
-	<h2 class="ui header">報名註冊</h2>
-	<div class="tab demo">
-		<div class="ui secondary menu">
-			<a data-tab="first" class="item active">報名與註冊繳費說明</a>
-			<a href="/indivisualreg" class="item">線上報名系統</a>
-		</div>
-		<div data-tab="first" class="ui tab segment active">
-           近期公布
-		</div>
-		<div data-tab="second" class="ui tab segment">
-			<a href="/indivisualreg">線上個人報名系統</a>
-		</div>
-	</div>
+    <h2 class="ui header">報名註冊</h2>
+    <div class="tab demo">
+        <div class="ui secondary menu">
+            <a data-tab="first" class="item active">報名與註冊繳費說明</a>
+            <a href="/indivisualreg" class="item">線上報名系統</a>
+        </div>
+        <div data-tab="first" class="ui tab segment active">
+            <h2>註冊報名流程</h2>
+            <p><font color=blue>註冊報名流程</font>：<strong>轉帳(匯款)繳費->網路報名->報名結果請於最新公告查詢->收據於會議時發放</strong></p>
+            <p>
+            報名參加2015年化工年會者，可先行轉帳或當天現場收現金，於<font color=blue>104年8月31日前</font>完成網路報名者可享優惠，<font color=red>如以ATM轉帳者，報名時請提供轉帳交易帳號之後5碼帳號</font>，逾期視同現場報名，恕無優待。
+            <p><font color=blue>帳號資訊:</font></p>
+            <p>
+            匯款郵局：大樹義守大學郵局<br>
+            帳號：004186-0-000780-5<br>
+            戶名：義守大學生物技術與化學工程研究所<br>
+            </p>
+            <style>
+.out{
+    border-top:40px #EFEFEF  solid; /*上邊框寬度等於表格第一行行高*/
+    width:0px; /*讓容器寬度為0*/
+    height:0px; /*讓容器高度為0*/
+    border-left:80px #FFFFFF solid; /*左邊框寬度等於表格第一行第一格寬度*/ 
+    position:relative; /*讓裡面的兩個子容器絕對定位*/
+}
+b{font-style:normal;display:block;position:absolute;top:-40px;left:-40px;width:35px;}
+em{font-style:normal;display:block;position:absolute;top:-25px;left:-70px;width:55x;}
+.t1{background:#BDBABD;}
+            </style>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th  style="width:80px;">
+                            <div class="out">
+                                <b>費用</b>
+                                <em>項目</em>
+                            </div>
+                        </th>
+                        <th>優惠繳費註冊費用8月31日前</th>
+                        <th>優惠繳費註冊費用8月31日前</th>
+                        <th>現場報名註冊費用</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>一般會員</td>
+                        <td>1500</td>
+                        <td>2000</td>
+                        <td>2500</td>
+                    </tr>
+                    <tr>
+                        <td>非會員</td>
+                        <td>2000</td>
+                        <td>2500</td>
+                        <td>3000</td>
+                    </tr>
+                    <tr>
+                        <td>學生會員</td>
+                        <td>800</td>
+                        <td>1000</td>
+                        <td>1500</td>
+                    </tr>
+                    <tr>
+                        <td>學生</td>
+                        <td>1000</td>
+                        <td>1500</td>
+                        <td>2000</td>
+                    </tr>
+                    <tr>
+                        <td>晚宴</td>
+                        <td colspan=3 class="text-center">800</td>
+                    </tr>
+                </tbody>
+            </table>
+            繳費與報名相關問題，請洽詢義守大學化工系 楊惠媚或陳家敏小姐<br>
+            TEL：(07)6577711分機3402~3<br>
+            FAX：(07)6578945<br>
+            mail：<a href="mailto:TwIChE2015@isu.edu.tw">TwIChE2015@isu.edu.tw</a><br>
+            </p>
+        </div>
+        <div data-tab="second" class="ui tab segment">
+            <a href="/indivisualreg">線上個人報名系統</a>
+        </div>
+    </div>
 </div>
 {% end %}

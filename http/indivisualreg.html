@@ -69,8 +69,8 @@
 			<tr>
 				<td colspan="2">類別</td>
 				<td style="width:28%;">2015/8/31前上網報名並完成繳費</td>
-				<td style="width:30%;">2015/9/1後至10/31上網報名並完成繳費</td>
-				<td style="width:28%;">現場報名繳費(11/5~7)</td>
+				<td style="width:30%;">2015/9/1後至9/30上網報名並完成繳費</td>
+				<td style="width:28%;">現場報名繳費</td>
 			</tr>
 			<tr class="0">
 				<td><input type="radio" name="package" value="0"></input></td>
@@ -356,8 +356,8 @@ $(document).ready(function(){
 	var package=$('input[name=package]');
 	var banquet=$('input[name=banquet]');
 	var total=$('td.total');
-	var date1=new Date('2015/10/10');
-	var date2=new Date('2015/10/20');
+	var date1=new Date('2015/8/31');
+	var date2=new Date('2015/9/30');
 	function update_money(){
 		var pkg=$('input[name=package]:checked').val();
 		var type=0;

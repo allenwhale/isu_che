@@ -3,29 +3,51 @@
 <link rel="stylesheet" type="text/css" href="news.css">
 {% end %}
 {% block content %}
-	<h1>最新消息</h1>
-	<table class="table table-hover">
-		<thead><tr>
-			<th>時間</th>
-			<th>公告標題</th>
-		</tr></thead>
-		<tbody>
-			{% for t in title_list %}
-			<tr>
-				<td style="width:20%;">{{t['time']}}</td>
-				<td>{% if int(t['top']) == 1 %}<div class="ui red horizontal label">置頂</div>{% end %}<a href="/news?page={{t['id']}}">{{t['title']}}</a></td>
-			</tr>
-			{% end %}
-		</tbody>
-	</table>
-	<!--<center>
-		<ul class="pagination">
-			<li><a href="#">&laquo</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">&raquo</a></li>
-		</ul>
-	</center>
-	-->
+<div class="row">
+    <h1>最新消息</h1>
+    <table class="table table-hover">
+        <thead><tr>
+                <th>時間</th>
+                <th>公告標題</th>
+        </tr></thead>
+        <tbody>
+        {% for t in title_list %}
+        <tr>
+            <td style="width:20%;">{{t['time']}}</td>
+            <td>{% if int(t['top']) == 1 %}<div class="ui red horizontal label">置頂</div>{% end %}<a href="/news?page={{t['id']}}">{{t['title']}}</a></td>
+        </tr>
+        {% end %}
+        </tbody>
+    </table>
+    <!--<center>
+        <ul class="pagination">
+            <li><a href="#">&laquo</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">&raquo</a></li>
+        </ul>
+    </center>
+    -->
+    <form id="add">
+        <input type="hidden" name="req" value="add" />
+        <label>標題</label>
+        <input name="title" class="form-control" />
+        <select name="top" class="form-control">
+            <option value="1">置頂</option>
+            <option value="0">一般</option>
+        </select>
+        <label>內容</label>
+        <textarea name="content" class="form-control"></textarea>
+        <button class="btn btn-primary" style="margin-top: 10px;" type="button" onclick="add();">新增</button>
+    </form>
+</div>
+<script>
+function add(){
+    var data = $('#add').serialize();
+    $.post('/news', data, function(res){
+        alert(res);
+    });
+}
+</script>
 {% end %}

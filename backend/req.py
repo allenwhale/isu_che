@@ -66,6 +66,10 @@ def reqenv(func):
     def wrap(self,*args,**kwargs):
         err,acct_id = yield from Service.User.get_sign_info(self)
         err,self.acct = yield from Service.User.get_acct_meta(acct_id)
+        try:
+            self.admin = self.get_cookie('admin')
+        except:
+            self.admin = None
         ret = func(self,*args,**kwargs)
         if isinstance(ret,types.GeneratorType):
             ret = yield from ret

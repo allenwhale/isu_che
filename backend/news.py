@@ -41,7 +41,7 @@ class NewsService:
                 'top':meta[6]}
         return (None,meta)
 
-    def add_news(self,title,top,content,attachment_name,attachment_link):
+    def add_news(self,title,top,content,attachment_name='',attachment_link=''):
         cur = yield self.db.cursor()
         yield cur.execute('INSERT INTO "news" (title,top,content,attachment_name,attachment_link)'
                 'VALUES(%s,%s,%s,\'{'+attachment_name+'}\',\'{'+attachment_link+'}\') RETURNING "news"."id";',
@@ -55,8 +55,18 @@ class NewsService:
         cur = yield self.db.cursor()
         yield cur.execute('DELETE FROM "news" WHERE "news"."id" = %s;',(nid,))
         if cur.rowcount != 1:
+            return ('Enoexist', None)
+        return (None, nid)
+
+
+    def mod_news(self, title, top, content, attachment_link='', attachment_name=''):
+        cur = yield self.db.cursor()
+        yield cur.execute('UPDATE "news" SET (title,top,content,attachment_name,attachment_link)'
+                ' = (%s,%s,%s,\'{'+attachment_name+'}\',\'{'+attachment_link+'}\') RETURNING "news"."id";',(title, top, content, ))
+        if cur.rowcount != 1:
             return('Enoexist',None)
-        return(None,nid)
+        nid = int(cur.fetchone()[0])
+        return (None, nid)
         
 class NewsHandler(RequestHandler):
     @reqenv
@@ -71,7 +81,7 @@ class NewsHandler(RequestHandler):
             if err:
                 self.finish(err)
                 return
-            self.render('../http/news.html',now = 'news',title_list = title_list,acct = self.acct)
+            self.render('../http/news.html',now = 'news',title_list = title_list,acct = self.acct, admin=self.admin)
             return
         else:
             err,meta = yield from NewsService.inst.get_news_by_id(page);
@@ -79,5 +89,38 @@ class NewsHandler(RequestHandler):
                 print(err)
                 return
             self.render('../http/news_page.html',now = 'news',
-                    meta = meta,acct = self.acct)
+                    meta = meta,acct = self.acct, admin=self.admin)
             return
+
+    @reqenv
+    def post(self):
+        req = self.get_argument('req', None)
+        if req == 'add':
+            title = self.get_argument('title', None)
+            content = self.get_argument('content', None)
+            top = self.get_argument('top', None)
+            err, nid = yield from NewsService.inst.add_news(title, top, content)
+            if err:
+                self.finish(err)
+                return
+            self.finish('S')
+
+        elif req == 'modify':
+            nid = self.get_argument('nid', None)
+            title = self.get_argument('title', None)
+            content = self.get_argument('content', None)
+            top = self.get_argument('top', None)
+            err, nid = yield from NewsService.inst.mod_news(title, top, content)
+            if err:
+                self.finish(err)
+                return
+            self.finish('S')
+        elif req == 'del':
+            nid = self.get_argument('nid', None)
+            err, nid = yield from NewsService.inst.del_news(nid)
+            if err:
+                self.finish(err)
+                return
+            self.finish('S')
+
+        pass

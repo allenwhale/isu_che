@@ -1,0 +1,33 @@
+{% extends '../http/index.html' %}
+{% block content %}
+{% if admin %}
+<form id="logout">
+    <input type="hidden" name="req" value="logout"/>
+    <button type="button" class="btn btn-warning" onclick="logout();">Logout</button>
+</form>
+{% else %}
+<form id="login">
+    <input type="hidden" value="login" name="req"/>
+    password: <input name="pwd"/>
+<button type="button" class="btn byn-primary" onclick="login();">Login</button>
+</form>
+{% end %}
+<script>
+function login(){
+    var data = $('#login').serialize();
+    $.post('/admin', data, function(res){
+        if(res == 'S'){
+            window.location = '/';
+        }else{
+            alert(res);
+        }
+    });
+}
+function logout(){
+    var data = $('#logout').serialize();
+    $.post('/admin', data, function(){
+        window.location = '/admin';
+    });
+}
+</script>
+{% end %}

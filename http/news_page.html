@@ -3,23 +3,70 @@
 <link rel="stylesheet" type="text/css" href="news_page.css">
 {% end %}
 {% block content %}
-<div class="container" style="width: 970px;">
+    {% if not admin %}
 	<div class="row">
-		<div class="col-sm-8 blog-main">
+		<div class="col-sm-12 blog-main">
 			<div class="blog-post">
 				<h3 class="blog-post-title">{{ meta['title'] }}{% if int(meta['top']) == 1%}<div class="ui red horizontal label">置頂</div>{% end %}</h3>
 				<p class="blog-post-meta">發布時間: {{ meta['time'] }}</p>
-				<p>{{meta['content']}}</p>
-				<p>附件連結</p>
+                <p>{% raw meta['content'].replace('\n','<br/>') %}</p>
+				<!--p>附件連結</p>
 				<ul>
 					{% for href in meta['attachment'] %}
 					<li>
 						<a href="{{href[1]}}">{{href[0]}}: {{href[1]}}</a>
 					</li>
 					{% end %}
-				</ul>
+				</ul-->
 			</div>
 		</div>
 	</div>
-</div>
+    {% else %}
+	<div class="row">
+		<div class="col-sm-12 blog-main">
+			<div class="blog-post">
+                <form id="modify">
+                    <label>標題</label>
+                    <input type="hidden" name="nid" value="{{meta['id']}}" />
+                    <input type="hidden" name="req" value="modify" />
+                    <h3 class=""><input type="text" name="title" value="{{meta['title']}}" class="form-control"></input></h3>
+                    <select name="top" class="form-control">
+                        <option value="1" {% if meta['top'] == 1 %}selected{% end %}>置頂</option>
+                        <option value="0" {% if meta['top'] != 1 %}selected{% end %}>一般</option>
+                    </select>
+                    <p class="blog-post-meta">發布時間: {{ meta['time'] }}</p>
+                    <label>內容</label>
+                    <textarea name="content" class="form-control">{{meta['content']}}</textarea>
+                    <!--p>附件連結</p>
+                    <ul>
+                        {% for href in meta['attachment'] %}
+                        <li>
+                            <a href="{{href[1]}}">{{href[0]}}: {{href[1]}}</a>
+                        </li>
+                        {% end %}
+                    </ul-->
+                    <button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="modify();">修改</button>
+                    <button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="del();">刪除</button>
+                </form>
+			</div>
+		</div>
+	</div>
+    {% end %}
+<script>
+function modify(){
+    var data = $('#modify').serialize();
+    $.post('/news', data, function(res){
+        alert(res);
+    });
+}
+function del(){
+    var data = {
+        'req': 'del',
+        'nid': $('input[name=nid]').val()
+    };
+    $.post('/news', data, function(res){
+        alert(res);
+    });
+}
+</script>
 {% end %}
