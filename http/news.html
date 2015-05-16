@@ -29,6 +29,7 @@
         </ul>
     </center>
     -->
+    {% if admin %}
     <form id="add">
         <input type="hidden" name="req" value="add" />
         <label>標題</label>
@@ -41,7 +42,6 @@
         <textarea name="content" class="form-control"></textarea>
         <button class="btn btn-primary" style="margin-top: 10px;" type="button" onclick="add();">新增</button>
     </form>
-</div>
 <script>
 function add(){
     var data = $('#add').serialize();
@@ -50,4 +50,6 @@ function add(){
     });
 }
 </script>
+    {% end %}
+</div>
 {% end %}
