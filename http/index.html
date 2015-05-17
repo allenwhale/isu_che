@@ -16,7 +16,7 @@ context: $('.tab.demo')});
         });
 </script>
 </head>
-<body>
+<body style="background: -webkit-linear-gradient(right, #f0f9ff 0%,#cbebff 47%,#a1dbff 100%);">
 <!--center><div id="myCarousel" class="carousel slide" style="width:76%;" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -55,7 +55,9 @@ context: $('.tab.demo')});
             </a>
         </div>
     </div></center-->
-<div class="container" style="/*min-width:1250px;width:80%;*/"><nav class="navbar navbar-default" role="navigation">
+<div class="container" style="/*min-width:1250px;width:80%;*/">
+    <img src="/banner.jpg" style="max-width: 100%;">
+    <nav class="navbar navbar-default" role="navigation">
 
         <div class="container-fluid">
             <div class="navbar-header">
@@ -146,14 +148,19 @@ context: $('.tab.demo')});
             <button class="btn btn-primary" onclick="window.location='/register'" style="margin-bottom: 5px;">報名系統</button>
             <button class="btn btn-primary" onclick="window.location='/paper'" style="margin-bottom: 5px;">摘要上傳</button>
             <button class="btn btn-primary" onclick="window.location='/company'" style="margin-bottom: 5px;">贊助單位</button>
+            <img src="/logo11.png" style="max-width: 100%; margin-bottom: 5px;">
+            <img src="/logo12.jpg" style="max-width: 100%; margin-bottom: 5px;">
+            <img src="/logo13.jpg" style="max-width: 100%; margin-bottom: 5px;">
+            <img src="/logo14.png" style="max-width: 100%; margin-bottom: 5px;">
+            <img src="/logo15.png" style="max-width: 100%; margin-bottom: 5px;">
         </div>
-        <div class="col-md-8" style="">
-            <div style="margin-bottom: 10px;">
+        <div class="col-md-9" style="">
+            <!--div style="margin-bottom: 10px;">
                 <img src="/banner.jpg" style="max-width: 100%;">
-            </div>
+            </div-->
             {% block content %}{% end %}
         </div>
-        <div class="col-md-3" style="">
+        <div class="col-md-2" style="">
             <a class="container" href='/venue'>
                 <img style="max-width: 100%;" src="/side-img-1.jpg"/>
             </a>
