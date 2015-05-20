@@ -3,28 +3,31 @@
 <link rel="stylesheet" type="text/css" href="news_page.css">
 {% end %}
 {% block content %}
-    {% if not admin %}
-	<div class="row">
-		<div class="col-sm-12 blog-main">
-			<div class="blog-post">
-				<h3 class="blog-post-title">{{ meta['title'] }}{% if int(meta['top']) == 1%}<div class="ui red horizontal label">置頂</div>{% end %}</h3>
-				<p class="blog-post-meta">發布時間: {{ meta['time'] }}</p>
+{% if not admin %}
+<div class="ui segment">
+    <div class="row">
+        <div class="col-sm-12 blog-main">
+            <div class="blog-post">
+                <h3 class="blog-post-title">{{ meta['title'] }}{% if int(meta['top']) == 1%}<div class="ui red horizontal label">置頂</div>{% end %}</h3>
+                <p class="blog-post-meta">發布時間: {{ meta['time'] }}</p>
                 <p>{% raw meta['content'].replace('\n','<br/>') %}</p>
-				<!--p>附件連結</p>
-				<ul>
-					{% for href in meta['attachment'] %}
-					<li>
-						<a href="{{href[1]}}">{{href[0]}}: {{href[1]}}</a>
-					</li>
-					{% end %}
-				</ul-->
-			</div>
-		</div>
-	</div>
-    {% else %}
-	<div class="row">
-		<div class="col-sm-12 blog-main">
-			<div class="blog-post">
+                <!--p>附件連結</p>
+                <ul>
+                    {% for href in meta['attachment'] %}
+                    <li>
+                        <a href="{{href[1]}}">{{href[0]}}: {{href[1]}}</a>
+                    </li>
+                    {% end %}
+                </ul-->
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="ui segment">
+    <div class="row">
+        <div class="col-sm-12 blog-main">
+            <div class="blog-post">
                 <form id="modify">
                     <label>標題</label>
                     <input type="hidden" name="nid" value="{{meta['id']}}" />
@@ -48,16 +51,17 @@
                     <button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="modify();">修改</button>
                     <button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="del();">刪除</button>
                 </form>
-			</div>
-		</div>
-	</div>
-    {% end %}
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
 <script>
 function modify(){
     var data = $('#modify').serialize();
     $.post('/news', data, function(res){
-        alert(res);
-    });
+            alert(res);
+            });
 }
 function del(){
     var data = {
@@ -65,8 +69,8 @@ function del(){
         'nid': $('input[name=nid]').val()
     };
     $.post('/news', data, function(res){
-        alert(res);
-    });
+            alert(res);
+            });
 }
 </script>
 {% end %}
