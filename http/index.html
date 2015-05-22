@@ -1,12 +1,13 @@
 <title>2015 化工年會</title>
 <head>
 <script type="text/javascript" src="/jquery-2.1.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/semantic.min.css">
+<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/index.css">
 <script type="text/javascript" src="/bootstrap/dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="/semantic.min.js"></script>
 <script type="text/javascript" src="/jquery.address.min.js"></script>
+<script type="text/javascript" src="/bootbox.min.js"></script>
 {% block head %}{% end %}
 <script>
 $(document).ready(function(){
@@ -55,11 +56,11 @@ context: $('.tab.demo')});
             </a>
         </div>
     </div></center-->
-<div class="container" style="/*min-width:1250px;width:80%;*/">
+<div class="container" style="/*min-width:1250px;width:80%;*/font-family: myfont;">
     <img src="/banner.jpg" style="max-width: 100%; margin-bottom: 12px;">
     <nav class="navbar navbar-default" role="navigation">
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="background-color: 3CBCFF;">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">toggle</span>
@@ -67,21 +68,21 @@ context: $('.tab.demo')});
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">化工年會</a>
+                <a class="navbar-brand" href="/" style="color: 00056B; font-size: 20px;"><strong>化工年會</strong></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class=""><a href="/news">最新消息</a></li>
-                    <li class=""><a href="/intro">年會介紹</a></li>
-                    <li class=""><a href="/agenda">會議議程</a></li>
-                    <li class=""><a href="/register">報名註冊</a></li>
-                    <li class=""><a href="/paper">論文投稿上傳</a></li>
-                    <li class=""><a href="/english">英語競賽</a></li>
+                <ul class="nav navbar-nav" style="font-size: 20px;">
+                    <li class=""><a href="/news" style="color: 00056B"><strong>最新消息</strong></a></li>
+                    <li class=""><a href="/intro" style="color: 00056B"><strong>年會介紹</strong></a></li>
+                    <li class=""><a href="/agenda" style="color: 00056B"><strong>會議議程</strong></a></li>
+                    <li class=""><a href="/register" style="color: 00056B"><strong>報名註冊</strong></a></li>
+                    <li class=""><a href="/paper" style="color: 00056B"><strong>論文投稿上傳</strong></a></li>
+                    <li class=""><a href="/english" style="color: 00056B"><strong>英語競賽</strong></a></li>
                     <!--li class=""><a href="/car">化學車競賽</a></li-->
-                    <li class=""><a href="/company">贊助單位</a></li>
+                    <li class=""><a href="/company" style="color: 00056B"><strong>贊助單位</strong></a></li>
                     <!--li class=""><a href="/sponsor">廣告贊助</a></li-->
-                    <li class=""><a href="/venue">住宿資訊</a></li>
-                    <li class=""><a href="/traffic">交通資訊</a></li>
+                    <li class=""><a href="/venue" style="color: 00056B"><strong>住宿資訊</strong></a></li>
+                    <li class=""><a href="/traffic" style="color: 00056B"><strong>交通資訊</strong></a></li>
                     <!--<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">重要時間<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -144,15 +145,15 @@ context: $('.tab.demo')});
     <div class="container" style="">
         <div class="row">
         <div class="col-md-1" style="">
-            <button class="btn btn-primary" onclick="window.location='/news'" style="margin-bottom: 5px;">最新消息</button>
-            <button class="btn btn-primary" onclick="window.location='/register'" style="margin-bottom: 5px;">報名系統</button>
-            <button class="btn btn-primary" onclick="window.location='/paper'" style="margin-bottom: 5px;">摘要上傳</button>
-            <button class="btn btn-primary" onclick="window.location='/company'" style="margin-bottom: 5px;">贊助單位</button>
-            <img src="/logo11.png" style="max-width: 100%; margin-bottom: 5px;">
-            <img src="/logo12.jpg" style="max-width: 100%; margin-bottom: 5px;">
-            <img src="/logo13.jpg" style="max-width: 100%; margin-bottom: 5px;">
-            <img src="/logo14.png" style="max-width: 100%; margin-bottom: 5px;">
-            <img src="/logo15.png" style="max-width: 100%; margin-bottom: 5px;">
+            <button class="btn" onclick="window.location='/news'" style="margin-bottom: 5px; background-color: 3CBCFF; color:000">最新消息</button>
+            <button class="btn" onclick="window.location='/register'" style="margin-bottom: 5px; background-color: 3CBCFF; color:0">報名系統</button>
+            <button class="btn" onclick="window.location='/paper'" style="margin-bottom: 5px; background-color: 3CBCFF; color:0">摘要上傳</button>
+            <button class="btn" onclick="window.location='/company'" style="margin-bottom: 15px; background-color: 3CBCFF; color:0">贊助單位</button>
+            <img src="/logo11.png" style="max-width: 100%; margin-bottom: 10px;">
+            <img src="/logo12.jpg" style="max-width: 100%; margin-bottom: 10px;">
+            <img src="/logo13.jpg" style="max-width: 100%; margin-bottom: 1px;">
+            <img src="/logo14.png" style="max-width: 100%; margin-bottom: 10px;">
+            <img src="/logo15.png" style="max-width: 100%; margin-bottom: 10px;">
         </div>
         <div class="col-md-9" style="">
             <!--div style="margin-bottom: 10px;">
@@ -162,10 +163,13 @@ context: $('.tab.demo')});
         </div>
         <div class="col-md-2" style="">
             <a class="container" href='/venue'>
-                <img style="max-width: 100%;" src="/side-img-1.jpg"/>
+                <img style="max-width: 100%;" src="/side_img_1.jpg"/>
             </a>
             <a class="container" href='/venue/#second'>
-                <img style="max-width: 100%;" src="/side-img-2.jpg"/>
+                <img style="max-width: 100%;" src="/side_img_2.jpg"/>
+            </a>
+            <a class="container" href='http://khh.travel/en/default1.asp'>
+                <img style="max-width: 100%;" src="/side_img_3.jpg"/>
             </a>
 
         </div>

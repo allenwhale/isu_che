@@ -19,20 +19,27 @@ $(document).ready(function(){
         var topic = $('select.topic').val();
         var title = $('input.title').val();
         var op = $('input[name=op]:checked').val();
+        var affliation = $('input[name=affliation]').val();
         var num = $('input.number').val();
         var author = $('input.author').val();
-        var file =document.getElementById('file');
+        var attach =document.getElementById('attach');
+        var copyright =document.getElementById('copyright');
         if(title == ''){
             alert('請輸入論文名稱');
             return;
         }else if(author == ''){
             alert('請輸入作者');
             return;
+        }else if(affliation == ''){
+            alert('請輸入機構英文名稱');
+            return;
         }else if(typeof(op) == 'undefined'){
             alert('請選擇發表方式');
             return;
+        }else if(typeof(attach.files[0])=='undefined'||typeof(copyright.files[0])=='undefined'){
+            alert('請選擇檔案');
+            return;
         }
-        
 		var formdata=new FormData($('form')[0]);
 		$.ajax({
 			url: '/paperupload',
@@ -54,7 +61,8 @@ $(document).ready(function(){
                         alert('something error');
                     }
                 }else{
-                    alert('成功上傳');
+                alert(res);
+                $('#form').html(res);
                 }
 			},
 			error: function(){},
@@ -66,7 +74,7 @@ $(document).ready(function(){
     });
 });
 </script>
-	<form class="form-upload">
+	<form class="form-upload" id="form">
 		{% if abstract == None %}
 		<h2 class="form-heading">論文摘要上傳</h2>
 		<table class="table table-bordered">
@@ -79,15 +87,11 @@ $(document).ready(function(){
 				<tr>
 					<td>主題*</td>
 					<td>
+                    {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.二氧化碳捕存與利用', 'TKJ1: Energy and Environmental Engineering', 'TKJ2: Bio/Nano Materials'] %}
 						<select class="form-control  topic" name="topic">
-							<option value="A. Biochemical and Biomedical Engineering" >A. 生化及生醫工程</option>
-							<option value="B. Transport Phenomena and Separation Technology" >B. 輸送現象及分離技術</option>
-							<option value="C. Thermodynamics and Interface Technology" >C. 熱力及界面工程 </option>
-							<option value="D. Energy Technology" >D. CO2 Capture and Utilization</option>
-							<option value="E. Material Science" >E. 材料在化工上的應用</option>
-							<option value="F. Electochemical Technology" >F. 電化學技術</option>
-							<option value="G. Green Chemical Technology and System Engineering" >G. 綠色化工技術及程序工程</option>
-							<option value="H. Catalysis and Reaction Engineering" >H. 觸媒及反應工程</option>
+                            {% for t in topic %}
+                            <option value="{{t}}" >{{t}}</option>
+                            {% end %}
 						</select>
 					</td>
 				</tr>
@@ -104,16 +108,25 @@ $(document).ready(function(){
                     </td>
 				</tr>
 				<tr>
+					<td>機構英文名稱*</td>
+					<td><input class="form-control affliation"  name="affliation"></input></td>
+
+				</tr>
+				<tr>
 					<td>計畫編號</td>
 					<td><input class="form-control number" name="number"></input></td>
 				</tr>
                 <tr>
-                    <td>作者姓名*</td>
-                    <td><input class="form-control author" name="author"></input></td>
+                    <td>所有作者英文姓名*</td>
+                    <td><input class="form-control author" name="author" ></input></td>
                 </tr>
 				<tr>
 					<td>摘要上傳*</td>
                     <td><input name="attach" id="attach" type="file"></input></td>
+				</tr>
+				<tr>
+					<td>授權書上傳*</td>
+					<td><input type="file" name="copyright" id="copyright"></input></td>
 				</tr>
 			</tbody>
 		</table>
@@ -133,22 +146,18 @@ $(document).ready(function(){
 			</thead>
 			<tbody id="paperupload">
 				<tr>
-					<td>主題*</td>
+					<td>子領域主題*</td>
 					<td>
+                    {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.二氧化碳捕存與利用', 'TKJ1: Energy and Environmental Engineering', 'TKJ2: Bio/Nano Materials'] %}
 						<select class="form-control  topic" name="topic">
-							<option value="A. Biochemical and Biomedical Engineering" {% if abstract['topic'] == 'A. Biochemical and Biomedical Engineering' %}selected{% end %}>A. 生化及生醫工程</option>
-							<option value="B. Transport Phenomena and Separation Technology" {% if abstract['topic'] == 'B. Transport Phenomena and Separation Technology' %}selected{% end %}>B. 輸送現象及分離技術</option>
-							<option value="C. Thermodynamics and Interface Technology" {% if abstract['topic'] == 'C. Thermodynamics and Interface Technology' %}selected{% end %}>C. 熱力及界面工程</option>
-							<option value="D. Energy Technology" {% if abstract['topic'] == 'D. Energy Technology' %}selected{% end %}>D. CO2 Capture and Utilization</option>
-							<option value="E. Material Science" {% if abstract['topic'] == 'E. Material Science' %}selected{% end %}>E. 材料在化工上的應用</option>
-							<option value="F. Electochemical Technology" {% if abstract['topic'] == 'F. Electochemical Technology' %}selected{% end %}>F. 電化學技術</option>
-							<option value="G. Green Chemical Technology and System Engineering" {% if abstract['topic'] == 'G. Green Chemical Technology and System Engineering' %}selected{% end %}>G. 綠色化工技術及程序工程</option>
-							<option value="H. Catalysis and Reaction Engineering" {% if abstract['topic'] == 'H. Catalysis and Reaction Engineering' %}selected{% end %}>H. 觸媒及反應工程</option>
+                            {% for t in topic %}
+                            <option value="{{t}}" {% if abstract['topic'] == t %}selected{% end %}>{{t}}</option>
+                            {% end %}
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td>論文名稱*</td>
+					<td>論文英文題目*</td>
 					<td><input class="form-control title" value={{ abstract['title'] }} name="title"></input></td>
 				</tr>
 				<tr>
@@ -160,16 +169,25 @@ $(document).ready(function(){
                     </td>
 				</tr>
 				<tr>
+					<td>機構英文名稱*</td>
+                    <td><input class="form-control affliation" value="{{abstract['affliation']}}" name="affliation"></input></td>
+
+				</tr>
+				<tr>
 					<td>計畫編號</td>
 					<td><input class="form-control number" value="{{ abstract['number'] }}" name="number"></input></td>
 				</tr>
                 <tr>
-                    <td>作者姓名*</td>
+                    <td>所有作者英文姓名*</td>
                     <td><input class="form-control author" name="author" value="{{ abstract['author'] }}"></input></td>
                 </tr>
 				<tr>
 					<td>摘要上傳*</td>
-                    <td><input id="attach" type="file" name="attach"></input> (若不做更改請勿上傳檔案)</td>
+                    <td><input id="attach" type="file" name="attach"></input></td>
+				</tr>
+				<tr>
+					<td>授權書上傳*</td>
+					<td><input type="file" name="copyright" id="copyright"></input></td>
 				</tr>
 			</tbody>
 		</table>

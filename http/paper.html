@@ -26,11 +26,11 @@ $(document).ready(function(){
 </script>
 <div class="example">
     <div class="">
-        <h2 class="ui header">壁報論文</h2>
+        <h2 class="header">壁報論文</h2>
         <div class="tab demo">
             <div class="ui secondary menu">
                 <a data-tab="first" class="item active">投稿須知</a>
-                <a data-tab="second" class="item">摘要格式</a>
+                <!--a data-tab="second" class="item">摘要格式</a-->
                 <a data-tab="third" class="item">論文摘要上傳</a>
                 <a data-tab="fifth" class="item">壁報張貼場次</a>
             </div>
@@ -40,6 +40,7 @@ $(document).ready(function(){
                     <a data-tab="first/b" class="item">壁報論文展覽</a>
                 </div>
                 <div data-tab="first/a" class="ui bottom attached active tab segment">
+                    <!--
                     1.投稿作者必須先報名成功，才能使用投稿論文功能，進行論文投稿。<br/>
                     2.<font color=red>每位報名註冊者至多可以投稿一篇論文，並簽署發表授權同意書。</font><br/>
                     3.基於智慧財產權之保護，論文投稿之作者必須為該篇論文之作者群之一以示負責。<br/>
@@ -51,6 +52,10 @@ $(document).ready(function(){
                     9.<font color=blue>凡參加投稿成功之論文摘要，將無任何條件與不須簽署同意授權書，即同意本年會刊登於論文集與科技部虛擬展場中。</font><br/>
                     10.<font color=red>摘要投稿截止日期為9月15日</font>；已完成投稿手續而於9月30日前未接獲任何通知者，請儘速與義守大學化工系洪哲穎教授聯繫。<br/>
                     11.如有相關投稿問題，請與洪哲穎教授聯繫 <a href="mailto:jyhoung@isu.edu.tw">jyhoung@isu.edu.tw</a><br/>
+-->
+                    <img src="/paperupload.jpg" style="max-width: 100%;">
+                    <a href="/abstract_teamplate.doc">論文摘要格式範例 下載</a><br/>
+                    <a href="/copyright.pdf">授權同意書 下載</a>
                 </div>
                 <div data-tab="first/b" class="ui bottom attached tab segment">
                     近期公告
@@ -96,7 +101,7 @@ $(document).ready(function(){
             -->
                 </div>
             </div>
-            <div data-tab="second" class="ui tab segment">
+            <!--div data-tab="second" class="ui tab segment">
                 1. 版面設定：論文請以A4規格21cm*29.5cm編排，本文版面規格: 版面上、下界2.0 cm，左、右界2.0 cm；內文段落採單行間距，字元間距設為標準，不要使用加寬或緊縮。<br/>
                 2. 字型設定：以Times New Roman字型書寫之<strong>英文摘要</strong>。<br/>
                 3. 字體大小：論文標題採14號粗體字，其餘皆為12號字。<br/>
@@ -105,7 +110,7 @@ $(document).ready(function(){
                 7. 一個摘要只提供A4規格半頁之空間，摘要以300字為限，請勿加入關鍵字、數據圖表、參考文獻等。<br/>
                 8. <a href="/Abstract%20teamplate.doc">論文摘要格式範例</a><br/>
                 7. <font color=red>投稿時請於系統中註明：投稿論文領域與發表方式。</font><br/>
-            </div>
+            </div-->
             <div data-tab="third" class="ui tab segment">
                 <!--a href="/paperupload">論文摘要上傳</a-->
                 如果是第一次進入此網站，請先至<a href="/register#/second">線上個人報名系統</a>報名
@@ -113,7 +118,7 @@ $(document).ready(function(){
                     <h2 class="form-heading">登入</h2>
                     <label>Email</label>
                     <input type="text" class="form-control email"></input>
-                    <label>Password(為報名代號)</label>
+                    <label>Password(為報名序號)</label>
                     <input type="password" class="form-control password"></input>
                     <button type="button" class="btn btn-primary submit">送出</button>
                     <button type="button" class="btn btn-warning forget">忘記密碼</button>
@@ -124,7 +129,7 @@ $(document).ready(function(){
                     <p>
                     請遵照要求格式透過此網站送出您的摘要，如果需要任何幫助請聯絡jyhoung@isu.edu.tw。
                     </p>
-                    <a class="btn btn-primary" href="/Abstract form.pdf">Download</a>
+                    <a class="btn btn-primary" href="/abstract_tepmlate.doc">Download</a>
                 </div>
             </div>
             <div data-tab="fifth" class="ui tab segment">

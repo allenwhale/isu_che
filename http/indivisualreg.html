@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="register.css">
 {% end %}
 {% block content %}
+<div id="idr">
 <form class="form-register">
 	<h2>線上報名系統</h2>
 	<table class="table table-bordered">
@@ -14,7 +15,7 @@
 		<tbody>
 			<tr>
 				<td>姓名<font color=red>*</font></td>
-				<td><input type="text" class="form-control name"></input></td>
+				<td><input type="text" class="form-control name" name="name"></input></td>
 			</tr>
 			<tr>
 				<td>職稱<font color=red>*</font></td>
@@ -27,28 +28,24 @@
 				</td>
 			</tr>
 			<tr>
-				<td>學校(公司)全銜<font color=red>*</font></td>
-				<td><input type="text" class="form-control affiliation"></input></td>
+				<td>學校(公司)全銜</td>
+				<td><input type="text" class="form-control" name="affiliation"></input></td>
 			</tr>
 			<tr>
-				<td>系所(單位)<font color=red>*</font></td>
-				<td><input type="text" class="form-control department"></input></td>
+				<td>系所(單位)</td>
+				<td><input type="text" class="form-control" name="department"></input></td>
 			</tr>
 			<tr>
-				<td>地址<font color=red>*</font></td>
-				<td><input type="text" class="form-control address"></input></td>
-			</tr>
-			<tr>
-				<td>郵遞區號<font color=red>*</font></td>
-				<td><input type="text" class="form-control postcode"></input></td>
+				<td>地址</td>
+				<td><input type="text" class="form-control" name="address"></input></td>
 			</tr>
 			<tr>
 				<td>E-mail<font color=red>*</font></td>
-				<td><input type="text" class="form-control email"></input></td>
+				<td><input type="text" class="form-control" name="email"></input></td>
 			</tr>
 			<tr>
-				<td>電話/手機<font color=red>*</font></td>
-				<td><input type="text" class="form-control phone"></input></td>
+				<td>電話/手機</td>
+				<td><input type="text" class="form-control" name="phone"></input></td>
 			</tr>
 			<tr>
 				<td>台灣化工會會員<font color=red>*</font></td>
@@ -114,7 +111,7 @@
 	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<th colspan="2">中午便當</th>
+				<th colspan="2">飲食需求</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -122,11 +119,6 @@
 				<td>
 					<input type="radio" name="food" value="1">葷</input>
 					<input type="radio" name="food" value="0">素</input>
-					若有勾擇晚宴請於此處選葷素
-				</td>
-				<td>
-					<input type="checkbox" name="food-date1">11/6</input>
-					<input type="checkbox" name="food-date2">11/7</input>
 				</td>
 			</tr>
 		</tbody>
@@ -139,25 +131,13 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>化工論壇 (可複選)</td>
+				<td>子領域主題 (可複選)</td>
+                {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.二氧化碳捕存與利用'] %}
 				<td>
-					<input type="checkbox" name="agenda" value="1">1.頁岩油、氣對台灣石化產業之影響</input>
-				</td>
-			</tr>
-			<tr>
-				<td>論文主題 (可複選)</td>
-				<td>
-					<input type="checkbox" name="paper" value="A">A.生化及生醫工程</input>
-					<input type="checkbox" name="paper" value="B">B.輸送現象及分離技術</input>
-					<input type="checkbox" name="paper" value="C">C.熱力及界面工程</input>
-					<br />
-					<input type="checkbox" name="paper" value="D">D.CO2 Capture and Utilization</input>
-					<input type="checkbox" name="paper" value="E">E.材料在化工上的應用</input>
-					<input type="checkbox" name="paper" value="F">F.電化學技術</input>
-					<br />
-					<input type="checkbox" name="paper" value="G">G.綠色化工技術及程序工程</input>
-					<input type="checkbox" name="paper" value="H">H.觸媒及反應工程</input>
-					<input type="checkbox" name="paper" value="I">I.學生英語專題報告競賽</input>
+                    {% for t in topic %}
+                    <input type="checkbox" name="paper" value="{{t}}">{{t}}</input>
+                    <br>
+                    {% end %}
 				</td>
 			</tr>
 		</tbody>
@@ -338,11 +318,11 @@
 				</td>
 			</tr>
 			<tr class="o-invoice">
-				<td>其他抬頭<font color=red>*</font></td>
+				<td>其他抬頭</td>
 				<td><input type="text" class="form-control o-invoice"></input></td>
 			</tr>
 			<tr>
-				<td>統一編號<font color=red>*</font></td>
+				<td>統一編號</td>
 				<td><input type="text" class="form-control vat"></input></td>
 			</tr>
 		</tbody>
@@ -350,6 +330,7 @@
 	<button type="button" class="btn btn-primary submit" style="float: left;">送出</button>
 	<div style="float: left;padding-left: 10px; padding-top: 5px; font-size: 16px; color:#F00" class="print"></div>
 </form>
+</div>
 <script>
 $(document).ready(function(){
 	var print=$('div.print');
@@ -388,20 +369,11 @@ $(document).ready(function(){
 			$('tr.o-invoice').hide();
 		}
 	});
-	$('input[name=agenda]').change(function(){
-		var tmp='';
-		$('input[name=agenda]').each(function(){
-			if($(this).prop('checked')){
-				tmp+=$(this).val()+' ';
-			}
-		});
-		agenda=tmp;
-	});
 	$('input[name=paper]').change(function(){
 		var tmp='';
 		$('input[name=paper]').each(function(){
 			if($(this).prop('checked')){
-				tmp+=$(this).val()+' ';
+				tmp+=$(this).val()+',';
 			}
 		});
 		paper=tmp;
@@ -409,20 +381,14 @@ $(document).ready(function(){
 	submit.click(function(){
 		var name=$('input.name').val();
 		var title=$('input[name=title]:checked').val();
-		var affiliation=$('input.affiliation').val();
-		var department=$('input.department').val();
-		var address=$('input.address').val();
-		var postcode=$('input.postcode').val();
-		var email=$('input.email').val();
-		var phone=$('input.email').val();
-		var fax=$('input.fax').val();
-		var cellphone=$('input.cellphone').val();
+		var affiliation=$('input[name=affiliation]').val();
+		var department=$('input[name=department]').val();
+		var address=$('input[name=address]').val();
+		var email=$('input[name=email]').val();
+		var phone=$('input[name=phone]').val();
 		var member=$('input[name=member]:checked').val();
-		var food=$('input[name=food]:checked').val()||-1;
-		var food_date1=$('input[name=food-data1]').prop('checked');
-		var food_date2=$('input[name=food-data2]').prop('checked');
+		var food=$('input[name=food]:checked').val();
 		var transnum=$('input.transnum').val();
-		var transmulti=$('input.transmulti').prop('checked');
 		var invoice=$('select.invoice').val();
 		var o_invoice=$('input.o-invoice').val();
 		var vat=$('input.vat').val();
@@ -434,44 +400,23 @@ $(document).ready(function(){
 		}else if(typeof(title)=='undefined'){
 			print.text('請選擇職稱');
 			return;
-		}else if(affiliation==''){
-			print.text('請輸入學校(公司)全銜');
-			return;
-		}else if(department==''){
-			print.text('請輸入系所(單位)');
-			return;
-		}else if(address==''){
-			print.text('請輸入地址');
-			return;
-		}else if(postcode==''){
-			print.text('請輸入郵遞區號');
-			return;
 		}else if(email==''){
 			print.text('請輸入E-mail');
-			return;
-		}else if(phone==''){
-			print.text('請輸入電話');
-			return;
-		}else if(fax==''){
-			print.text('請輸入傳真');
-			return;
-		}else if(cellphone==''){
-			print.text('請輸入手機');
 			return;
 		}else if(typeof(member)=='undefined'){
 			print.text('請選擇是否為會員');
 			return;
-		}else if((banquet.prop('checked')||food_date1||food_date2)&&typeof(food)=='undefuned'){
+		}else if(typeof(food)=='undefuned'){
 			print.text('請輸入食物葷素');
 			return;
-		}else if(transnum==''){
+        }else if(typeof($('input[name=package]:checked').val())=='undefined'){
+            print.text('請選擇類別');
+            return;
+        }else if(transnum==''){
 			print.text('請輸入轉帳帳號後五碼');
 			return;
 		}else if(transnum.match(/\d*/i)!=transnum||transnum.length!=5){
 			print.text('請確認轉帳帳號後五碼');
-			return;
-		}else if(invoice==''){
-			print.text('請輸入其他抬頭名稱');
 			return;
 		}
 		$.post('/indivisualreg',{
@@ -480,25 +425,19 @@ $(document).ready(function(){
 			'affiliation':affiliation,
 			'department':department,
 			'address':address,
-			'postcode':postcode,
 			'email':email,
 			'phone':phone,
-			'fax':fax,
-			'cellphone':cellphone,
 			'member':member,
 			'package':$('input[name=package]:checked').val(),
 			'banquet':banquet.prop('checked')?1:0,
 			'total':total.text().split(' ')[0],
 			'food':food,
-			'food_date1':food_date1?'1':'0',
-			'food_date2':food_date2?'1':'0',
-			'agenda':agenda,
 			'paper':paper,
 			'transnum':transnum,
-			'transmulti':transmulti?'1':'0',
 			'invoice':invoice,
 			'vat':vat,
 		},function(res){
+            alert(res);
 			if(res=='Eexistname'){
 				print.text('此姓名已註冊');
             }else if(res == 'Eexistemail'){
@@ -506,8 +445,18 @@ $(document).ready(function(){
             }else if(res[0]=='E'){
 				print.text('Something Wrong');
 			}else{
-				alert('您的報名編號為 '+res);
-                window.location = '/';
+                $('#idr').html(res);
+                /*
+                html = '報名序號：'+res+'<br>'+
+                    '姓名：'+name+'<br>'+
+                    '投稿頁面網址：<a href="http://twiche2015.isu.edu.tw/paper#/third">台灣化學工程學會62th年會論文投稿</a><br>'+
+                    '感謝您報名台灣化學工程學會62nd年會，摘要投稿請年會投稿系統。<br>'+
+                    '62nd化工年會網址：<a href="http://twiche2015.isu.edu.tw">http://twiche2015.isu.edu.tw/</a><br>'
+                    'Thank you and have a nice day!!<br>';
+                bootbox.alert(html, function(){
+                    window.location = '/';
+                });
+                */
 			}
 		});
 	});

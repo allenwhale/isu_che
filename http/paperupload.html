@@ -18,15 +18,12 @@
 				</tr>
 				<tr>
 					<td>論文主題</td>
+                    {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.二氧化碳捕存與利用', '', ''] %}
+
 					<td>
-						<input type="radio" name="theme" value="A">A. 生化與生醫</input>
-						<input type="radio" name="theme" value="B">B. 輸送現象及分離技術</input>
-						<input type="radio" name="theme" value="C">C. 熱力及界面工程</input><br/>
-						<input type="radio" name="theme" value="D">D. 能源工程</input>
-						<input type="radio" name="theme" value="E">E. 材料在化工上的應用</input>
-						<input type="radio" name="theme" value="F">F. 電化學技術</input><br/>
-						<input type="radio" name="theme" value="G">G. 綠色化工技術及程序系統工程</input>
-						<input type="radio" name="theme" value="H">H. 觸媒級反應工程</input>
+                        {% for t in topic %}
+                        <input type="radio" name="theme" value="{{t}}">{{t}}</input>
+                        {% end %}
 					</td>
 				</tr>
 				<tr>
@@ -53,8 +50,12 @@
 					<td><input type="text" class="form-control" name="number"></input></td>
 				</tr>
 				<tr>
-					<td>論文格式上傳</td>
+					<td>論文格式上傳*</td>
 					<td><input type="file" class="form-control" name="paper" id="paper"></input></td>
+				</tr>
+				<tr>
+					<td>授權書上傳*</td>
+					<td><input type="file" class="form-control" name="copyright" id="copyright"></input></td>
 				</tr>
 			</tbody>
 		</table>
