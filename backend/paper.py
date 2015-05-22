@@ -15,7 +15,8 @@ class PaperService:
         if cur.rowcount != 1:
             return ('Eaccount', None)
         uid = str(cur.fetchone()[0])
-        if uid == password:
+        print(uid, '%04d'%int(password))
+        if '%04d'%int(uid) == '%04d'%int(password):
             return (None, uid)
         return ('Elogin', None)
 

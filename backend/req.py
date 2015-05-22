@@ -28,6 +28,12 @@ class RequestHandler(tornado.web.RequestHandler):
     def error(self,err):
         self.finish(err)
         return
+
+    def get_args(self, args):
+        meta = {}
+        for a in args:
+            meta[a] = self.get_argument(a, None)
+        return meta
         
     def render(self,templ,**kwargs):
         class _encoder(json.JSONEncoder):

@@ -44,22 +44,30 @@ class UserService:
             return ('Epwderror',None)
         return (None,int(meta[1]))
 
-    def get_acct_meta(self,uid):
-        if uid == 0:
-            meta = {'uid':0,'name':'','email':'','place':'','title':''}
-            return (None,meta) 
+    def get_acct_meta(self,rid):
         cur = yield self.db.cursor()
-        yield cur.execute('SELECT "account"."name","account"."email",'
-                '"account"."place","account"."title" '
-                'FROM "account" WHERE "account"."uid" = %s',(uid,))
+        yield cur.execute('SELECT "name", "title", "affiliation", "department", "address", "email", "phone", "member", "package", "total", "food", "paper", "transnum", "invoice", "vat" '
+                'FROM "register" WHERE "rid" = %s',(rid,))
         if cur.rowcount != 1:
             return ('EDB',None)
         meta = cur.fetchone()
-        meta = {'uid':uid,
+        meta = {'rid':rid,
                 'name':meta[0],
-                'email':meta[1],
-                'place':meta[2],
-                'title':meta[3]}
+                'title':meta[1],
+                'affiliation':meta[2],
+                'department':meta[3],
+                'address': meta[4],
+                'email': meta[5],
+                'phone': meta[6],
+                'member': meta[7],
+                'package': meta[8],
+                'total': meta[9],
+                'food': meta[10],
+                'paper': meta[11],
+                'transnum': meta[12],
+                'invoice': meta[13],
+                'vat': meta[14]
+                }
         return (None,meta)
 
     def get_sign_info(self,req):

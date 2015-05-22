@@ -4,6 +4,9 @@
 <form id="logout">
     <input type="hidden" name="req" value="logout"/>
     <button type="button" class="btn btn-warning" onclick="logout();">Logout</button>
+    <a href="/{{csv}}" download>使用者註冊資料csv</a>
+    <a href="/{{_abs}}" download>摘要csv</a>
+    <a href="/{{_zip}}" download>摘要zip</a>
 </form>
 {% else %}
 <form id="login">

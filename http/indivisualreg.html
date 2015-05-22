@@ -47,13 +47,6 @@
 				<td>電話/手機</td>
 				<td><input type="text" class="form-control" name="phone"></input></td>
 			</tr>
-			<tr>
-				<td>台灣化工會會員<font color=red>*</font></td>
-				<td>
-					<input type="radio" name="member" value="1">是</input>
-					<input type="radio" name="member" value="0">否</input>
-				</td>
-			</tr>
 		</tbody>
 	</table>
 	<table class="table table-bordered">
@@ -71,7 +64,7 @@
 			</tr>
 			<tr class="0">
 				<td><input type="radio" name="package" value="0"></input></td>
-				<td>一般會員</td>
+				<td>TwIChE 會員</td>
 				<td class="0">1500 元</td>
 				<td class="1">2000 元</td>
 				<td class="2">2500 元</td>
@@ -85,7 +78,7 @@
 			</tr>
 			<tr class="2">
 				<td><input type="radio" name="package" value="2"></input></td>
-				<td>學生會員</td>
+				<td>TwIChE 學生會員</td>
 				<td class="0">800 元</td>
 				<td class="1">1000 元</td>
 				<td class="2">1500 元</td>
@@ -403,9 +396,6 @@ $(document).ready(function(){
 		}else if(email==''){
 			print.text('請輸入E-mail');
 			return;
-		}else if(typeof(member)=='undefined'){
-			print.text('請選擇是否為會員');
-			return;
 		}else if(typeof(food)=='undefuned'){
 			print.text('請輸入食物葷素');
 			return;
@@ -427,7 +417,6 @@ $(document).ready(function(){
 			'address':address,
 			'email':email,
 			'phone':phone,
-			'member':member,
 			'package':$('input[name=package]:checked').val(),
 			'banquet':banquet.prop('checked')?1:0,
 			'total':total.text().split(' ')[0],
@@ -437,7 +426,6 @@ $(document).ready(function(){
 			'invoice':invoice,
 			'vat':vat,
 		},function(res){
-            alert(res);
 			if(res=='Eexistname'){
 				print.text('此姓名已註冊');
             }else if(res == 'Eexistemail'){

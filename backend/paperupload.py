@@ -1,42 +1,57 @@
 from req import reqenv
 from req import RequestHandler
 from req import Service
+from mail import MailHandler
+import subprocess
+from os import mkdir 
 
 class PaperuploadService:
     def __init__(self,db):
         self.db = db
         PaperuploadService.inst = self
 
-    def upload(self, uid, topic, title, author, number, op, f):
+    def upload(self, uid, topic, title, author, number, op, affiliation, f, ff):
+        if not f or not ff:
+            return ('Enofile', None)
         cur = yield self.db.cursor()
         yield cur.execute('SELECT "aid" FROM "abstract" WHERE "uid" = %s;', (uid,))
         if cur.rowcount == 0:#new
             if f == None:
                 return ('Enofile', None)
-            yield cur.execute('INSERT INTO "abstract" ("uid", "topic", "title", "author", "number", "op") VALUES (%s, %s, %s, %s, %s, %s) RETURNING "aid";', (uid, topic, title, author, number, op))
+            yield cur.execute('INSERT INTO "abstract" ("uid", "topic", "title", "author", "number", "op", "affiliation") VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING "aid";', (uid, topic, title, author, number, op, affiliation))
             if cur.rowcount != 1:
                 return ('EDB', None)
             aid = str(cur.fetchone()[0])
-            path = '../http/paper/' + aid + '.' + f['filename'].split('.')[-1]
+            mkdir('../http/paper/'+str(uid))
+            path = '../http/paper/'+str(uid)+'/abs' + aid + '.' + f['filename'].split('.')[-1]
             _f = open(path, 'wb+')
             _f.write(f['body'])
             _f.close()
+            path = '../http/paper/'+str(uid)+'/cop' + aid + '.' + ff['filename'].split('.')[-1]
+            _f = open(path, 'wb+')
+            _f.write(ff['body'])
+            _f.close()
             return (None, aid)
         else:#edit
-            yield cur.execute('UPDATE "abstract" SET "uid" = %s, "topic" = %s, "title" = %s, "author" = %s, number = %s, "op" = %s RETURNING "aid";', (uid, topic, title, author, number, op))
+            yield cur.execute('UPDATE "abstract" SET "uid" = %s, "topic" = %s, "title" = %s, "author" = %s, number = %s, "op" = %s, "affiliation" = %s RETURNING "aid";', (uid, topic, title, author, number, op, affiliation))
             if cur.rowcount != 1:
                 return ('EDB', None)
             aid = str(cur.fetchone()[0])
-            if f:
-                path = '../http/paper/' + aid + '.' + f['filename'].split('.')[-1]
-                _f = open(path, 'wb+')
-                _f.write(f['body'])
-                _f.close()
+            subprocess.call(['rm','-rf','../http/paper/'+str(uid)])
+            mkdir('../http/paper/'+str(uid))
+            path = '../http/paper/'+str(uid)+'/abs' + aid + '.' + f['filename'].split('.')[-1]
+            _f = open(path, 'wb+')
+            _f.write(f['body'])
+            _f.close()
+            path = '../http/paper/'+str(uid)+'/cop' + aid + '.' + ff['filename'].split('.')[-1]
+            _f = open(path, 'wb+')
+            _f.write(ff['body'])
+            _f.close()
             return (None, aid)
 
     def get_abstract_info(self, uid):
         cur = yield self.db.cursor()
-        yield cur.execute('SELECT "aid", "topic", "title", "author", "number", "op" FROM "abstract" WHERE "uid" = %s;', (uid,))
+        yield cur.execute('SELECT "aid", "topic", "title", "author", "number", "op", "affiliation" FROM "abstract" WHERE "uid" = %s;', (uid,))
         if cur.rowcount != 1:
             return ('EDB', None)
         meta = cur.fetchone()
@@ -45,7 +60,8 @@ class PaperuploadService:
                 'title': str(meta[2]),
                 'author': str(meta[3]),
                 'number': str(meta[4]),
-                'op' : str(meta[5])
+                'op' : str(meta[5]),
+                'affiliation': str(meta[6])
                 }
         return (None, meta)
 '''
@@ -196,17 +212,22 @@ class PaperuploadHandler(RequestHandler):
         topic = str(self.get_argument('topic'))
         title = str(self.get_argument('title'))
         op = str(self.get_argument('op'))
-        print(op)
+        affiliation = self.get_argument('affiliation')
         author = str(self.get_argument('author'))
         number = str(self.get_argument('number'))
+        print('uid',uid)
         try:
-            f = self.request.files['attach'][0]
+            f1 = self.request.files['attach'][0]
+            f2 = self.request.files['copyright'][0]
         except:
-            f = None
-        print(f)
-        err, aid = yield from PaperuploadService.inst.upload(uid, topic, title, author, number, op, f)
+            f1 = None
+            f2 = None
+        err, aid = yield from PaperuploadService.inst.upload(uid, topic, title, author, number, op, affiliation, f1, f2)
         if err:
             self.finish(err)
             return
-        self.finish(str(aid))
+        err, meta = yield from Service.User.get_acct_meta(uid)
+        m = MailHandler('../http/abstract_mail.html')
+        m.send(to=meta['email'],subject='台灣化學工程學會62nd年會 摘要投稿通知!!',title=title,topic=topic,name=author)
+        self.render('../http/afterabs.html',name=author,title=title,topic=topic)
         return

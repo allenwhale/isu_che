@@ -19,7 +19,7 @@ $(document).ready(function(){
         var topic = $('select.topic').val();
         var title = $('input.title').val();
         var op = $('input[name=op]:checked').val();
-        var affliation = $('input[name=affliation]').val();
+        var affiliation = $('input[name=affiliation]').val();
         var num = $('input.number').val();
         var author = $('input.author').val();
         var attach =document.getElementById('attach');
@@ -30,7 +30,7 @@ $(document).ready(function(){
         }else if(author == ''){
             alert('請輸入作者');
             return;
-        }else if(affliation == ''){
+        }else if(affiliation == ''){
             alert('請輸入機構英文名稱');
             return;
         }else if(typeof(op) == 'undefined'){
@@ -109,11 +109,11 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td>機構英文名稱*</td>
-					<td><input class="form-control affliation"  name="affliation"></input></td>
+					<td><input class="form-control affiliation"  name="affiliation"></input></td>
 
 				</tr>
 				<tr>
-					<td>計畫編號</td>
+					<td>計畫編號<br>(如為科技部計畫，務必填寫)</td>
 					<td><input class="form-control number" name="number"></input></td>
 				</tr>
                 <tr>
@@ -170,11 +170,11 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td>機構英文名稱*</td>
-                    <td><input class="form-control affliation" value="{{abstract['affliation']}}" name="affliation"></input></td>
+                    <td><input class="form-control affiliation" value="{{abstract['affiliation']}}" name="affiliation"></input></td>
 
 				</tr>
 				<tr>
-					<td>計畫編號</td>
+                    <td>計畫編號<br>(如為科技部計畫，務必填寫)</td>
 					<td><input class="form-control number" value="{{ abstract['number'] }}" name="number"></input></td>
 				</tr>
                 <tr>
