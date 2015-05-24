@@ -46,7 +46,7 @@ class UserService:
 
     def get_acct_meta(self,rid):
         cur = yield self.db.cursor()
-        yield cur.execute('SELECT "name", "title", "affiliation", "department", "address", "email", "phone", "member", "package", "total", "food", "paper", "transnum", "invoice", "vat" '
+        yield cur.execute('SELECT "name", "title", "affiliation", "department", "address", "email", "phone", "member", "package", "total", "food", "paper", "transnum", "invoice", "vat","created" '
                 'FROM "register" WHERE "rid" = %s',(rid,))
         if cur.rowcount != 1:
             return ('EDB',None)
@@ -66,7 +66,8 @@ class UserService:
                 'paper': meta[11],
                 'transnum': meta[12],
                 'invoice': meta[13],
-                'vat': meta[14]
+                'vat': meta[14],
+                'created': meta[15]
                 }
         return (None,meta)
 

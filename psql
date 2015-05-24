@@ -48,7 +48,8 @@ CREATE TABLE register(
 	transnum character varying,
 	transmulti integer,
 	invoice character varying,
-	vat character varying
+	vat character varying,
+    created date DEFAULT now()
 );
 CREATE TABLE paper(
 	pid integer,
@@ -60,6 +61,7 @@ CREATE TABLE paper(
 	author character varying,
 	affiliation character varying,
 	number character varying,
+    
 	filename character varying
 );
 CREATE TABLE abstract(
@@ -71,6 +73,7 @@ CREATE TABLE abstract(
 	author character varying,
 	op character varying,
     affliation varchar,
+    modified date now()
 );
 CREATE TABLE keyword_of_abstract(
 	kid SERIAL,
@@ -88,3 +91,12 @@ CREATE TABLE author_of_abstract(
 	addition character varying,
 	email character varying
 );
+CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+        NEW.modified = now();
+        RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER abstract_modified BEFORE UPDATE ON abstract FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();

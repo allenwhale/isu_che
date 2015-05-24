@@ -30,18 +30,30 @@ class AdminService:
         err, meta = yield from self.get_account_info(admin)
         if err:
             return (err, None)
-        args = ['rid','invoice','affiliation','transnum','vat','phone','title','food','name','total','member','department','package','email','address',]
-        paper = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+        args = ['rid','invoice','affiliation','transnum','vat','phone','title','food','name','total','member','department','package','email','address','created']
+        paper = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'TKJ1:', 'TKJ2:']
         filename = '../http/'+str(datetime.datetime.now().strftime('%Y-%m-%d'))+'info.csv'
         f = open(filename, 'wb')
         for t in args:
-            f.write((t+',').encode('big5'))
+            if t == 'rid':
+                f.write('uid,'.encode('big5'))
+            else:
+                f.write((t+',').encode('big5'))
         for p in paper:
             f.write((p+',').encode('big5'))
         f.write('\n'.encode('big5'))
         for m in meta:
             for a in args:
-                f.write((str(m[a])+',').encode('big5'))
+                if a == 'food':
+                    ff = ['素','葷','XXX']
+                    f.write((ff[int(m[a])]+',').encode('big5'))
+                elif a == 'rid':
+                    f.write(('="%04d",'%(int(m[a]))).encode('big5'))
+                elif a == 'vat':
+                    f.write(('="%s",'%m[a]).encode('big5'))
+                else:
+                    f.write((str(m[a])+',').encode('big5'))
+
             for p in paper:
                 if p in m['paper']:
                     f.write('YES,'.encode('big5'))
@@ -59,7 +71,7 @@ class AdminService:
         user_list = [ c[0] for c in cur ]
         meta = []
         for user in user_list:
-            yield cur.execute('SELECT "topic", "title", "op", "affiliation", "author", "number", "aid" FROM "abstract" WHERE "uid" = %s;', (user, ))
+            yield cur.execute('SELECT "topic", "title", "op", "affiliation", "author", "number", "aid", "modified" FROM "abstract" WHERE "uid" = %s;', (user, ))
             if cur.rowcount == 1:
                 sub = cur.fetchone()
                 meta.append({'uid':user,
@@ -69,7 +81,8 @@ class AdminService:
                     'affiliation':sub[3],
                     'author':sub[4],
                     'number':sub[5],
-                    'aid': sub[6]
+                    'aid': sub[6],
+                    'modified': sub[7]
                     })
         return (None, meta)
 
@@ -80,7 +93,7 @@ class AdminService:
         if err:
             return(err, None)
         filename = '../http/'+str(datetime.datetime.now().strftime('%Y-%m-%d'))+'abs.csv'
-        args = ['uid','topic', 'title', 'op', 'affiliation', 'number', 'author']
+        args = ['uid','topic', 'title', 'op', 'affiliation', 'number', 'author', 'modified']
         f = open(filename, 'wb')
         for a in args:
             if a == 'op':
@@ -90,7 +103,10 @@ class AdminService:
         f.write('\n'.encode('big5'))
         for m in meta:
             for a in args:
-                f.write((str(m[a])+',').encode('big5'))
+                if a == 'uid':
+                    f.write(('="%04d",'%m[a]).encode('big5'))
+                else:
+                    f.write((str(m[a])+',').encode('big5'))
             f.write('\n'.encode('big5'))
         f.close()
         return (None, filename)
@@ -130,7 +146,7 @@ class AdminService:
             if sub[-1] == '\n':
                 sub = sub[:-1]
             print(sub)
-            copy2(sub,dstpath+clas[:-1]+'-%03d-'%ID+m['op']+'-%04d-Abs'%m['uid']+'.'+sub.split('.')[-1]) 
+            copy2(sub,dstpath+clas[:-1]+'-%03d-'%ID+m['op']+'-%04d-Cop'%m['uid']+'.'+sub.split('.')[-1]) 
             try:
                 remove('../http/'+dirname+'.zip')
             except:
@@ -147,7 +163,7 @@ class AdminHandler(RequestHandler):
         err, meta = yield from AdminService.inst.get_abstract_info(self.admin)
         err, filename = yield from AdminService.inst.gen_csv_abstract(self.admin)
         err, dirname = yield from AdminService.inst.pack_abstract(self.admin)
-        self.render('../http/admin.html', admin=self.admin,csv=str(datetime.datetime.now().strftime('%Y-%m-%d')+'info.csv'),_abs=str(datetime.datetime.now().strftime('%Y-%m-%d')+'abs.csv'),_zip=dirname+'.zip')
+        self.render('../http/admin.html', admin=self.admin,csv=str(datetime.datetime.now().strftime('%Y-%m-%d')+'info.csv'),_abs=str(datetime.datetime.now().strftime('%Y-%m-%d')+'abs.csv'),_zip=str(dirname)+'.zip')
 
         return
 

@@ -59,11 +59,13 @@ class IndivisualregHandler(RequestHandler):
     def post(self):
         args = ['name', 'title', 'affiliation', 'department', 'address', 'email', 'phone', 'package', 'banquet', 'total', 'food', 'paper', 'transnum', 'invoice', 'vat']
         meta = self.get_args(args)
+        if not meta['food']:
+            meta['food'] = -1
         err,rid = yield from RegisterService.inst.register(meta)
         if err:
             self.finish(err)
             return
         m = MailHandler('../http/register_mail.html')
-        m.send(to=meta['email'], subject='台灣化學工程學會62th年會報名確認', rid='%04d'%rid, name=meta['name'])
+        m.send(to=meta['email'], subject='台灣化學工程學會62th年會報名確認', _from='TwIChE@isu.edu.tw', rid='%04d'%rid, name=meta['name'])
         self.render('../http/afterreg.html', rid='%04d'%rid, name=meta['name'])
         return
