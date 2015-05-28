@@ -33,7 +33,7 @@ class PaperuploadService:
             _f.close()
             return (None, aid)
         else:#edit
-            yield cur.execute('UPDATE "abstract" SET "uid" = %s, "topic" = %s, "title" = %s, "author" = %s, number = %s, "op" = %s, "affiliation" = %s RETURNING "aid";', (uid, topic, title, author, number, op, affiliation))
+            yield cur.execute('UPDATE "abstract" SET "uid" = %s, "topic" = %s, "title" = %s, "author" = %s, number = %s, "op" = %s, "affiliation" = %s WHERE "uid" = %s RETURNING "aid";', (uid, topic, title, author, number, op, affiliation, uid))
             if cur.rowcount != 1:
                 return ('EDB', None)
             aid = str(cur.fetchone()[0])

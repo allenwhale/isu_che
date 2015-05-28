@@ -40,6 +40,14 @@ class RegisterService():
             return ('EDB',None)
         return (None,cur.fetchone()[0])
 
+    def forget(self, data):
+        cur = yield self.db.cursor()
+        yield cur.execute('SELECT "rid" FROM "register" WHERE "email" = %s AND "transnum" = %s;', (data['email'], data['transnum']))
+        if cur.rowcount != 1:
+            return ('Eexist', None)
+        uid = cur.fetchone()[0]
+        return (None, uid)
+
 class RegisterHandler(RequestHandler):
     @reqenv
     def get(self):
@@ -47,7 +55,14 @@ class RegisterHandler(RequestHandler):
         return
     @reqenv
     def post(self):
-        pass
+        args = ['email', 'transnum']
+        meta = self.get_args(args)
+        err, uid = yield from RegisterService.inst.forget(meta)
+        if err:
+            self.finish(err)
+            return
+        self.finish(str(uid))
+        return
 
 class IndivisualregHandler(RequestHandler):
     @reqenv

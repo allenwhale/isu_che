@@ -15,7 +15,12 @@ function progress(e){
 	bar.text(percent+'%');
 }
 $(document).ready(function(){
+    var submited=false;
     $('button.submit').click(function(){
+        if(submited==true){
+            return false;
+        }
+        submited=true;
         var topic = $('select.topic').val();
         var title = $('input.title').val();
         var op = $('input[name=op]:checked').val();

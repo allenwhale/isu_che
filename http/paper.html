@@ -6,23 +6,35 @@
 {% block content %}
 <script>
 $(document).ready(function(){
-        $('#login').find('.submit').click(function(){
-            var form = $('#login');
-            var email = form.find('.email').val();
-            var password = form.find('.password').val();
-            $.post('/paper',{
-                'req': 'login',
-                'email': email,
-                'password': password,
-                },function(res){
-                if(res[0] == 'E'){
+    $('#login').find('.submit').click(function(){
+        var form = $('#login');
+        var email = form.find('.email').val();
+        var password = form.find('.password').val();
+        $.post('/paper',{
+            'req': 'login',
+            'email': email,
+            'password': password,
+        },function(res){
+            if(res[0] == 'E'){
                 alert(res);
-                }else{
+            }else{
                 window.location = '/paperupload';
-                }
-                });
-            });
+            }
         });
+    });
+    $('#login').find('.forget').click(function(){
+        var email = prompt('輸入您的信箱');
+        if(email){
+            var transnum = prompt('輸入您的轉帳後五碼');
+        }else return false;
+        $.post('/register', {
+            'email': email,
+            'transnum': transnum,
+        }, function(res){
+            alert(res);
+        });
+    });
+});
 </script>
 <div class="example">
     <div class="">
