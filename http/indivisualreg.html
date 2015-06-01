@@ -125,7 +125,7 @@
 		<tbody>
 			<tr>
 				<td>子領域主題 (可複選)</td>
-                {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.二氧化碳捕存與利用', 'TKJ1: Energy and Environmental Engineering', 'TKJ2: Bio/Nano Materials'] %}
+                {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.減碳淨煤', 'TKJ1: Energy and Environmental Engineering', 'TKJ2: Bio/Nano Materials'] %}
 				<td>
                     {% for t in topic %}
                     <input type="checkbox" name="paper" value="{{t}}">{{t}}</input>
@@ -143,13 +143,22 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>轉帳帳號後五碼<font color=red>*</font></td>
+				<td>匯款者轉帳帳號後五碼<font color=red>*</font></td>
 				<td><input type="text" class="form-control transnum"></input></td>
+			</tr>
+			<tr>
+				<td>匯款日期 (西元/月/日)<font color=red>*</font></td>
+				<td><input type="text" class="form-control transdate"></input></td>
+			</tr>
+			<tr>
+				<td>匯款者姓名<font color=red>*</font></td>
+				<td><input type="text" class="form-control transname"></input></td>
 			</tr>
 			<tr>
 				<td>收據抬頭<font color=red>*</font></td>
 				<td>
 					<select class="form-control invoice">
+						<option value="other">其他</option>
 						<option value="國立政治大學">國立政治大學</option>
 						<option value="國立清華大學">國立清華大學</option>
 						<option value="國立臺灣大學">國立臺灣大學</option>
@@ -306,7 +315,6 @@
 						<option value="中央警察大學">中央警察大學</option>
 						<option value="國防醫學院">國防醫學院</option>
 						<option value="國立空軍航空技術學院">國立空軍航空技術學院</option>
-						<option value="other">其他</option>
 					</select>
 				</td>
 			</tr>
@@ -354,7 +362,7 @@ $(document).ready(function(){
 	var agenda='';
 	var paper='';
 	var submit=$('button.submit');
-	$('tr.o-invoice').hide();
+	//$('tr.o-invoice').hide();
 	$('select.invoice').change(function(){
 		if($(this).val()=='other'){
 			$('tr.o-invoice').show();
@@ -385,6 +393,8 @@ $(document).ready(function(){
 		var invoice=$('select.invoice').val();
 		var o_invoice=$('input.o-invoice').val();
 		var vat=$('input.vat').val();
+        var transdate=$('input.transdate').val();
+        var transname=$('input.transname').val();
 		if(invoice=='other')
 			invoice=o_invoice;
 		if(name==''){
@@ -403,12 +413,18 @@ $(document).ready(function(){
             print.text('請選擇類別');
             return;
         }else if(transnum==''){
-			print.text('請輸入轉帳帳號後五碼');
+			print.text('請輸入匯款者轉帳帳號後五碼');
 			return;
 		}else if(transnum.match(/\d*/i)!=transnum||transnum.length!=5){
-			print.text('請確認轉帳帳號後五碼');
+			print.text('請確認匯款者轉帳帳號後五碼');
 			return;
-		}
+        }else if(transdate==''){
+			print.text('請輸入匯款日期');
+			return;
+        }else if(transname==''){
+			print.text('請輸入匯款者姓名');
+			return;
+        }
 		$.post('/indivisualreg',{
 			'name':name,
 			'title':title,
@@ -425,6 +441,8 @@ $(document).ready(function(){
 			'transnum':transnum,
 			'invoice':invoice,
 			'vat':vat,
+            'transdate':transdate,
+            'transname':transname
 		},function(res){
 			if(res=='Eexistname'){
 				print.text('此姓名已註冊');

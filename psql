@@ -49,6 +49,8 @@ CREATE TABLE register(
 	transmulti integer,
 	invoice character varying,
 	vat character varying,
+    transdate varchar(256),
+    transname varchar(256),
     created date DEFAULT now()
 );
 CREATE TABLE paper(

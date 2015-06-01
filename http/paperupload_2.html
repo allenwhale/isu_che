@@ -92,7 +92,7 @@ $(document).ready(function(){
 				<tr>
 					<td>主題*</td>
 					<td>
-                    {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.二氧化碳捕存與利用', 'TKJ1: Energy and Environmental Engineering', 'TKJ2: Bio/Nano Materials'] %}
+                    {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.減碳淨煤', 'TKJ1: Energy and Environmental Engineering', 'TKJ2: Bio/Nano Materials'] %}
 						<select class="form-control  topic" name="topic">
                             {% for t in topic %}
                             <option value="{{t}}" >{{t}}</option>
@@ -153,7 +153,7 @@ $(document).ready(function(){
 				<tr>
 					<td>子領域主題*</td>
 					<td>
-                    {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.二氧化碳捕存與利用', 'TKJ1: Energy and Environmental Engineering', 'TKJ2: Bio/Nano Materials'] %}
+                    {% set topic = ['A.生化及生醫工程', 'B.輸送現象及分離技術', 'C.熱力及界面工程', 'D.材料在化工上的應用', 'E.電化學技術', 'F.觸媒及反應工程', 'G.綠色化工技術及程序工程', 'H.博士生英語專題報告競賽' ,'I.減碳淨煤', 'TKJ1: Energy and Environmental Engineering', 'TKJ2: Bio/Nano Materials'] %}
 						<select class="form-control  topic" name="topic">
                             {% for t in topic %}
                             <option value="{{t}}" {% if abstract['topic'] == t %}selected{% end %}>{{t}}</option>

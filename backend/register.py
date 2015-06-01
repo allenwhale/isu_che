@@ -72,7 +72,7 @@ class IndivisualregHandler(RequestHandler):
 
     @reqenv
     def post(self):
-        args = ['name', 'title', 'affiliation', 'department', 'address', 'email', 'phone', 'package', 'banquet', 'total', 'food', 'paper', 'transnum', 'invoice', 'vat']
+        args = ['name', 'title', 'affiliation', 'department', 'address', 'email', 'phone', 'package', 'banquet', 'total', 'food', 'paper', 'transnum', 'invoice', 'vat', 'transdate', 'transname']
         meta = self.get_args(args)
         if not meta['food']:
             meta['food'] = -1
