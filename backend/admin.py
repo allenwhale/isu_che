@@ -67,7 +67,7 @@ class AdminService:
         if not admin:
             return ('Eaccess', None)
         cur = yield self.db.cursor()
-        yield cur.execute('SELECT "rid" FROM "register" ;')
+        yield cur.execute('SELECT "rid" FROM "register" ORDER BY "rid";')
         user_list = [ c[0] for c in cur ]
         meta = []
         for user in user_list:
@@ -120,7 +120,7 @@ class AdminService:
         topic_class = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.', 'G.', 'H.', 'I.', 'TKJ1:', 'TKJ2:']
         cnt = {}
         for t in topic_class:
-            cnt[t] = 1
+            cnt[t] = {'o':1,'p':1}
 
         dirname = str(datetime.datetime.now().strftime('%Y-%m-%d'))
         subprocess.call(['rm','-rf','../http/'+dirname])
@@ -131,8 +131,8 @@ class AdminService:
             for t in topic_class:
                 if t in m['topic']:
                     clas = t
-                    ID = cnt[t]
-                    cnt[t] += 1
+                    ID = cnt[t][m['op']]
+                    cnt[t][m['op']] += 1
             srcpath = '../http/paper/'+str(uid)+'/'
             dstpath = '../http/'+dirname+'/'
             sub = subprocess.Popen('find '+srcpath+' | grep abs', shell=True, stdout=subprocess.PIPE)
@@ -140,13 +140,13 @@ class AdminService:
             if sub[-1] == '\n':
                 sub = sub[:-1]
             print(sub)
-            copy2(sub,dstpath+clas[:-1]+'-%03d-'%ID+m['op']+'-%04d-Abs'%m['uid']+'.'+sub.split('.')[-1])
+            copy2(sub,dstpath+clas[:-1]+m['op'].upper()+'-%03d-'%ID+'%04d-Abs'%m['uid']+'.'+sub.split('.')[-1])
             sub = subprocess.Popen('find '+srcpath+' | grep cop', shell=True, stdout=subprocess.PIPE)
             sub = sub.communicate()[0].decode()
             if sub[-1] == '\n':
                 sub = sub[:-1]
             print(sub)
-            copy2(sub,dstpath+clas[:-1]+'-%03d-'%ID+m['op']+'-%04d-Cop'%m['uid']+'.'+sub.split('.')[-1]) 
+            copy2(sub,dstpath+clas[:-1]+m['op'].upper()+'-%03d-'%ID+'%04d-Cop'%m['uid']+'.'+sub.split('.')[-1]) 
             try:
                 remove('../http/'+dirname+'.zip')
             except:

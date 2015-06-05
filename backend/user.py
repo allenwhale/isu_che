@@ -21,10 +21,10 @@ class UserService:
                 'WHERE "account"."email" = %s;',(email,))
         if cur.rowcount != 0 :
             return ('Eexistemail',None)
-        yield cur.execute('SELECT "account"."uid" FROM "account" '
-                'WHERE "account"."name" = %s;',(name,))
-        if cur.rowcount != 0 :
-            return ('Eexistname',None)
+        #yield cur.execute('SELECT "account"."uid" FROM "account" '
+                #'WHERE "account"."name" = %s;',(name,))
+        #if cur.rowcount != 0 :
+            #return ('Eexistname',None)
         yield cur.execute('INSERT INTO "account" '
                 '("email","name","place","title","password") '
                 'VALUES(%s,%s,%s,%s,%s) RETURNING "account"."uid";',
