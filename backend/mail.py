@@ -13,7 +13,7 @@ class MailHandler:
         for b in bcc:
             cmd += ['-b', b]
         if _from:
-            cmd += ['-a', _from]
+            cmd += ['-a', 'FROM: '+_from]
         cmd += [to]
         try:
             p = sp.Popen(cmd, stdin=sp.PIPE)

@@ -228,6 +228,6 @@ class PaperuploadHandler(RequestHandler):
             return
         err, meta = yield from Service.User.get_acct_meta(uid)
         m = MailHandler('../http/abstract_mail.html')
-        m.send(to=meta['email'],subject='台灣化學工程學會62nd年會 摘要投稿通知!!',title=title,topic=topic,name=author)
+        m.send(to=meta['email'],subject='台灣化學工程學會62nd年會 摘要投稿通知!!',_from='twiche2015@isu.edu.tw',title=title,topic=topic,name=author)
         self.render('../http/afterabs.html',name=author,title=title,topic=topic)
         return

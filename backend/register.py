@@ -45,8 +45,8 @@ class RegisterService():
         yield cur.execute('SELECT "rid" FROM "register" WHERE "email" = %s AND "transnum" = %s;', (data['email'], data['transnum']))
         if cur.rowcount != 1:
             return ('Eexist', None)
-        uid = cur.fetchone()[0]
-        return (None, uid)
+        uid = int(cur.fetchone()[0])
+        return (None, '%04d'%uid)
 
 class RegisterHandler(RequestHandler):
     @reqenv
@@ -81,6 +81,6 @@ class IndivisualregHandler(RequestHandler):
             self.finish(err)
             return
         m = MailHandler('../http/register_mail.html')
-        m.send(to=meta['email'], subject='台灣化學工程學會62th年會報名確認', _from='TwIChE@isu.edu.tw', rid='%04d'%rid, name=meta['name'])
+        m.send(to=meta['email'], subject='台灣化學工程學會62th年會報名確認', _from='twiche2015@isu.edu.tw', rid='%04d'%rid, name=meta['name'])
         self.render('../http/afterreg.html', rid='%04d'%rid, name=meta['name'])
         return
