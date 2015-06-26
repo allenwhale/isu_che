@@ -49,6 +49,10 @@ class AdminService:
                     f.write((ff[int(m[a])]+',').encode('big5'))
                 elif a == 'rid':
                     f.write(('="%04d",'%(int(m[a]))).encode('big5'))
+                elif a == 'email':
+                    f.write(('"%s",'%(m[a])).encode('big5'))
+                elif a == 'phone':
+                    f.write(('="%s",'%(m[a])).encode('big5'))
                 elif a == 'vat':
                     f.write(('="%s",'%m[a]).encode('big5'))
                 else:
@@ -120,7 +124,7 @@ class AdminService:
         topic_class = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.', 'G.', 'H.', 'I.', 'TKJ1:', 'TKJ2:']
         cnt = {}
         for t in topic_class:
-            cnt[t] = {'o':1,'p':1}
+            cnt[t] = {'o':1,'p':1, 'i':1}
 
         dirname = str(datetime.datetime.now().strftime('%Y-%m-%d'))
         subprocess.call(['rm','-rf','../http/'+dirname])

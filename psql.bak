@@ -1,0 +1,546 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: update_modified_column(); Type: FUNCTION; Schema: public; Owner: admin
+--
+
+CREATE FUNCTION update_modified_column() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+        NEW.modified = now();
+        RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.update_modified_column() OWNER TO admin;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: abstract; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE abstract (
+    aid integer NOT NULL,
+    uid integer,
+    topic character varying,
+    title character varying,
+    number character varying,
+    author character varying,
+    op character varying,
+    affliation character varying,
+    affiliation character varying(256) DEFAULT ''::character varying,
+    modified date DEFAULT now()
+);
+
+
+ALTER TABLE abstract OWNER TO admin;
+
+--
+-- Name: abstract_aid_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE abstract_aid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE abstract_aid_seq OWNER TO admin;
+
+--
+-- Name: abstract_aid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE abstract_aid_seq OWNED BY abstract.aid;
+
+
+--
+-- Name: account; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE account (
+    uid integer NOT NULL,
+    email character varying,
+    name character varying,
+    place character varying,
+    title character varying,
+    password character varying,
+    "timestamp" timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE account OWNER TO admin;
+
+--
+-- Name: account_uid_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE account_uid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE account_uid_seq OWNER TO admin;
+
+--
+-- Name: account_uid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE account_uid_seq OWNED BY account.uid;
+
+
+--
+-- Name: author_of_abstract; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE author_of_abstract (
+    auid integer NOT NULL,
+    aid integer,
+    first_name character varying,
+    last_name character varying,
+    "position" character varying,
+    department character varying,
+    affiliation character varying,
+    addition character varying,
+    email character varying
+);
+
+
+ALTER TABLE author_of_abstract OWNER TO admin;
+
+--
+-- Name: author_of_abstract_auid_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE author_of_abstract_auid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE author_of_abstract_auid_seq OWNER TO admin;
+
+--
+-- Name: author_of_abstract_auid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE author_of_abstract_auid_seq OWNED BY author_of_abstract.auid;
+
+
+--
+-- Name: keyword_of_abstract; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE keyword_of_abstract (
+    kid integer NOT NULL,
+    aid integer,
+    keyword character varying
+);
+
+
+ALTER TABLE keyword_of_abstract OWNER TO admin;
+
+--
+-- Name: keyword_of_abstract_kid_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE keyword_of_abstract_kid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE keyword_of_abstract_kid_seq OWNER TO admin;
+
+--
+-- Name: keyword_of_abstract_kid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE keyword_of_abstract_kid_seq OWNED BY keyword_of_abstract.kid;
+
+
+--
+-- Name: news; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE news (
+    id integer NOT NULL,
+    title character varying,
+    content character varying,
+    attachment_name character varying[],
+    attachment_link character varying[],
+    "timestamp" timestamp with time zone DEFAULT now(),
+    top integer
+);
+
+
+ALTER TABLE news OWNER TO admin;
+
+--
+-- Name: news_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE news_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE news_id_seq OWNER TO admin;
+
+--
+-- Name: news_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE news_id_seq OWNED BY news.id;
+
+
+--
+-- Name: paper; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE paper (
+    pid integer,
+    rid integer,
+    name character varying,
+    theme character varying,
+    competition integer,
+    title character varying,
+    author character varying,
+    affiliation character varying,
+    number character varying,
+    filename character varying
+);
+
+
+ALTER TABLE paper OWNER TO admin;
+
+--
+-- Name: register; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+--
+
+CREATE TABLE register (
+    rid integer NOT NULL,
+    name character varying,
+    title character varying,
+    affiliation character varying,
+    department character varying,
+    address character varying,
+    postcode character varying,
+    email character varying,
+    phone character varying,
+    fax character varying,
+    cellphone character varying,
+    member integer,
+    package integer,
+    banquet integer,
+    total integer,
+    food integer,
+    food_date1 integer,
+    food_date2 integer,
+    agenda character varying,
+    paper character varying,
+    transnum character varying,
+    transmulti integer,
+    invoice character varying,
+    vat character varying,
+    created date DEFAULT now(),
+    transdate character varying(256),
+    transname character varying(256)
+);
+
+
+ALTER TABLE register OWNER TO admin;
+
+--
+-- Name: register_rid_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE register_rid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE register_rid_seq OWNER TO admin;
+
+--
+-- Name: register_rid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE register_rid_seq OWNED BY register.rid;
+
+
+--
+-- Name: aid; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY abstract ALTER COLUMN aid SET DEFAULT nextval('abstract_aid_seq'::regclass);
+
+
+--
+-- Name: uid; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY account ALTER COLUMN uid SET DEFAULT nextval('account_uid_seq'::regclass);
+
+
+--
+-- Name: auid; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY author_of_abstract ALTER COLUMN auid SET DEFAULT nextval('author_of_abstract_auid_seq'::regclass);
+
+
+--
+-- Name: kid; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY keyword_of_abstract ALTER COLUMN kid SET DEFAULT nextval('keyword_of_abstract_kid_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY news ALTER COLUMN id SET DEFAULT nextval('news_id_seq'::regclass);
+
+
+--
+-- Name: rid; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY register ALTER COLUMN rid SET DEFAULT nextval('register_rid_seq'::regclass);
+
+
+--
+-- Data for Name: abstract; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY abstract (aid, uid, topic, title, number, author, op, affliation, affiliation, modified) FROM stdin;
+5	10	A.生化及生醫工程	123	123	123	o	\N	123	2015-05-27
+6	51	C.熱力及界面工程	just test	XXX	Chia Min Chen	p	\N	ISU	2015-05-28
+4	11	A.生化及生醫工程	123		123	o	\N	13123	2015-06-11
+8	64	A.生化及生醫工程	123		123	o	\N	123	2015-06-11
+7	62	I.減碳淨煤	只是試試	987654321	Victor Lin, Sunny Lin	p	\N	SSSSSSSSS	2015-06-12
+9	71	C.熱力及界面工程	A predictive thermodynamic model for phase behavior of gas hydrates		Chin HY, Hsieh MK, Chen YP, Lin ST, Chen LJ	i	\N	Department of Chemical Engineering, National Taiwan University	2015-06-20
+\.
+
+
+--
+-- Name: abstract_aid_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('abstract_aid_seq', 9, true);
+
+
+--
+-- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY account (uid, email, name, place, title, password, "timestamp") FROM stdin;
+10	allen	allen	allen	wu	231663313	2015-02-02 19:21:09.612394+08
+11	test	test	test	Prof.	968027084	2015-02-02 19:38:45.913829+08
+12	testt	testt	testt	Prof.	811547238	2015-02-02 19:39:03.825473+08
+13	qqq	qqq	qqq	Prof.	999706025	2015-02-02 19:39:33.995425+08
+14	wujy@xxxx	XXXXX	XXXXX  VVVV	Prof.	595803099	2015-02-02 21:13:14.807344+08
+15	chaumin1115@isu.edu.tw	陳家敏	義守大學化工系	Ms.	118373705	2015-02-06 11:33:58.214351+08
+\.
+
+
+--
+-- Name: account_uid_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('account_uid_seq', 15, true);
+
+
+--
+-- Data for Name: author_of_abstract; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY author_of_abstract (auid, aid, first_name, last_name, "position", department, affiliation, addition, email) FROM stdin;
+78	1	123	3	Prof.	1	123	通訊作者	23
+79	1	123	123	Prof.	123	123	參與會議發表者	123
+80	1	111	222	Mr.	234	234	皆非	4
+81	1	qwe	eq	Dr.	qwe	qw	通訊作者	qw
+82	1	12e1	12	Prof.	12	e	通訊作者	e
+83	2	e wrf	ewrf e	Prof.	rf ewrf	ewrf we	通訊作者	werf
+\.
+
+
+--
+-- Name: author_of_abstract_auid_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('author_of_abstract_auid_seq', 83, true);
+
+
+--
+-- Data for Name: keyword_of_abstract; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY keyword_of_abstract (kid, aid, keyword) FROM stdin;
+116	1	123123
+117	1	23r23r23r2r
+118	1	dfsdfsdf
+119	1	1sdfsdfsdf
+120	2	erf er
+121	2	erre
+122	2	f erf
+\.
+
+
+--
+-- Name: keyword_of_abstract_kid_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('keyword_of_abstract_kid_seq', 122, true);
+
+
+--
+-- Data for Name: news; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY news (id, title, content, attachment_name, attachment_link, "timestamp", top) FROM stdin;
+11	重要日程	第一階段優惠報名期限：2015年8月31日(一)前\r\n第二階段報名日期：2015年9月1日(二) ~ 2015年9月30日(三)\r\n摘要收件截止日期：2015年9月15日(二)\r\n審查結果通知日期：2015年9月30日(三)	{}	{}	2015-05-12 23:17:13.763265+08	1
+\.
+
+
+--
+-- Name: news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('news_id_seq', 13, true);
+
+
+--
+-- Data for Name: paper; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY paper (pid, rid, name, theme, competition, title, author, affiliation, number, filename) FROM stdin;
+1	1	1	A	1	1	1	1	1	A-P-001-Y-1.doc
+\.
+
+
+--
+-- Data for Name: register; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY register (rid, name, title, affiliation, department, address, postcode, email, phone, fax, cellphone, member, package, banquet, total, food, food_date1, food_date2, agenda, paper, transnum, transmulti, invoice, vat, created, transdate, transname) FROM stdin;
+1	1	Prof.	q	q	q	q	q	q	q	q	1	0	0	1200	-1	0	0	1	B	q	0	國立政治大學	q	2015-05-23	\N	\N
+2	1 w	Prof.	q	q	q	q	q	q	q	q	1	0	0	1200	-1	0	0	1	B	q	0	國立政治大學	q	2015-05-23	\N	\N
+3	q	Prof.	q	q	q	q	q	q	q	q	1	0	0	1200	-1	0	0	1	A	12345	0	國立政治大學	123	2015-05-23	\N	\N
+4	123	Prof.	q	q	q	q	q	q	q	q	1	0	0	1200	-1	0	0	1 2	A D	12343	0	國立政治大學	123	2015-05-23	\N	\N
+5	1231	Prof.	q	q	q	q	q	q	q	q	1	0	0	1200	-1	0	0	1 2	A D	12343	0	國立政治大學	123	2015-05-23	\N	\N
+9	12345	Dr.	123	123	123	123	123	123	123	123	0	0	1	2000	0	0	0	1	D	12312	0	國立政治大學	123	2015-05-23	\N	\N
+10	asda	Prof.	asd	asd	asd	asd	asd@mailcatch.com	asd@mailcatch.com	asd	asd	1	0	0	1200	-1	0	0	1	A	12345	1	國立東華大學	1234567890	2015-05-23	\N	\N
+11	qwe	Prof.	qwe	qwe	qwe	qwe	qwe	qwe	qwe	qwe	1	0	1	2000	1	0	0	1	A	12345	0	國立政治大學	123457	2015-05-23	\N	\N
+23	231	Dr.				\N	132		\N	\N	1	3	0	1000	1	\N	\N	\N	E.電化學技術,	12345	\N	國立政治大學		2015-05-23	\N	\N
+24	1234124	Prof.				\N	234324		\N	\N	0	0	0	1500	0	\N	\N	\N	A.生化及生醫工程,	23456	\N	國立政治大學		2015-05-23	\N	\N
+25	456436	Prof.				\N	3456		\N	\N	1	3	1	1800	1	\N	\N	\N	B.輸送現象及分離技術,	43562	\N	國立政治大學		2015-05-23	\N	\N
+30	f3	Prof.				\N	12x		\N	\N	1	0	0	1500	1	\N	\N	\N	A.生化及生醫工程,	12345	\N	國立政治大學		2015-05-23	\N	\N
+43	123123	Prof.	123213	213123	12321	\N	3213123123	123213	\N	\N	\N	0	0	1500	0	\N	\N	\N	A.生化及生醫工程,	13232	\N	國立政治大學	123	2015-05-23	\N	\N
+44	陳美瑾	Prof.	國立成功大學	化工系	台南市東區大學路一號自強校區93912	\N	kokola@mail.ncku.edu.tw	62696	\N	\N	\N	0	0	1500	1	\N	\N	\N	A.生化及生醫工程,	98333	\N	國立成功大學	69115908	2015-05-23	\N	\N
+48	1231233	Prof.				\N	123123123		\N	\N	\N	0	0	1500	-1	\N	\N	\N	TKJ1: Energy and Environmental Engineering,	12312	\N	國立高雄大學		2015-05-23	\N	\N
+49	孫嘉良	Prof.	長庚大學	化工與材料工程學系	333桃園市龜山區文化一路259號長庚大學化材系	\N	sunchialiang@gmail.com	0921822529	\N	\N	\N	0	1	2300	1	\N	\N	\N	D.材料在化工上的應用,E.電化學技術,TKJ1: Energy and Environmental Engineering,TKJ2: Bio/Nano Materials,	22275	\N	長庚大學	02612701	2015-05-25	\N	\N
+50	陳test	Ms.	ISU	CHE	ISU	\N	isu	123	\N	\N	\N	0	1	2300	1	\N	\N	\N	C.熱力及界面工程,	54321	\N	義守大學	07927743	2015-05-26	\N	\N
+51	陳tes	Ms.	ISU	ISU	ISU	\N	chaumin1115@isu.edu.tw	0929001115	\N	\N	\N	0	1	2300	1	\N	\N	\N	B.輸送現象及分離技術,	56879	\N	義守大學	07927743	2015-05-26	\N	\N
+52	楊惠媚	Mr.	義守大學	化工系	高雄市大樹區學程錄1段1號	\N	yhm@isu.edu,tw	09363775853	\N	\N	\N	0	1	2300	1	\N	\N	\N	A.生化及生醫工程,D.材料在化工上的應用,I.二氧化碳捕存與利用,	02141	\N	義守大學	0792773	2015-05-26	\N	\N
+53	qqqqq	Prof.	qwe	qwe	qwe	\N	qqqqq@mailcatch.com		\N	\N	\N	0	0	1500	0	\N	\N	\N	A.生化及生醫工程,	12345	\N	國立政治大學		2015-05-27	\N	\N
+54	123123123	Prof.				\N	123123@mailcatch.com		\N	\N	\N	0	0	1500	-1	\N	\N	\N	A.生化及生醫工程,	12345	\N	國立政治大學		2015-05-27	\N	\N
+55	林00	Mr.	00			\N	isu10237007m@cloud.isu.edu.tw		\N	\N	\N	2	1	1600	1	\N	\N	\N	I.二氧化碳捕存與利用,TKJ1: Energy and Environmental Engineering,TKJ2: Bio/Nano Materials,	11111	\N	...	111111	2015-05-28	\N	\N
+56	Vanessa	Ms.				\N	chaumin1115@gmail.com		\N	\N	\N	0	1	2300	1	\N	\N	\N	E.電化學技術,F.觸媒及反應工程,	34568	\N			2015-05-28	\N	\N
+57	1231233123	Dr.				\N	123@123		\N	\N	\N	0	0	1500	-1	\N	\N	\N	A.生化及生醫工程,	12332	\N			2015-06-01	\N	\N
+58	陳奇中	Prof.	國立金門大學/逢甲大學	通識教育中心/化工系		\N	ctchen@nqu.edu.tw		\N	\N	\N	0	1	2300	1	\N	\N	\N	G.綠色化工技術及程序工程,	11111	\N			2015-06-04	2015/6/4	陳奇中
+59	顏宏偉	Prof.	東海大學	化材系		\N	hwyen@thu.edu.tw		\N	\N	\N	0	0	1500	1	\N	\N	\N		11111	\N			2015-06-04	2015/6/4	顏宏偉
+60	李文乾	Prof.	國立中正大學	化工系		\N	chmwcl@ccu.edu.tw	(05)2729152	\N	\N	\N	0	1	2300	1	\N	\N	\N	A.生化及生醫工程,	11111	\N	國立中正大學		2015-06-05	2015/6/5	李文乾
+61	魏毓宏	Prof.	元智大學	生物科技與工程研究所	320桃園市中壢區遠東路135號	\N	yhwei@saturn.yzu.edu.tw	0915-287-856	\N	\N	\N	0	1	2300	1	\N	\N	\N	A.生化及生醫工程,	11111	\N	元智大學		2015-06-05	1040605	魏毓宏
+62	林暘倧	Mr.	群創光電			\N	victor2239@yahoo.com.tw	0929085852	\N	\N	\N	1	1	2800	1	\N	\N	\N	G.綠色化工技術及程序工程,I.減碳淨煤,	01234	\N	只是試試	98765432	2015-06-09	2015/06/09	林暘倧
+63	吳意珣	Prof.	國立成功大學	化學工程學系	701台南市大學路一號	\N	yswu@mail.ncku.edu.tw	0952224200	\N	\N	\N	0	1	2300	1	\N	\N	\N	A.生化及生醫工程,	11111	\N	國立成功大學	69115908	2015-06-09	2015/6/9	吳意珣
+64	123123123132	Prof.	1			\N	allencat850502@gmail.com		\N	\N	\N	0	0	1500	-1	\N	\N	\N	A.生化及生醫工程,	12345	\N			2015-06-11	12356	12356
+65	楊YHM	Ms.	ISU	ChE		\N	a0936377553@gmail.com	0936377553	\N	\N	\N	3	1	1800	1	\N	\N	\N	E.電化學技術,	55555	\N	義守大學	07927743	2015-06-12	2015/06/12	楊YHM
+66	李豪業	Prof.	國立台灣科技大學	化學工程系	10607 臺北市大安區基隆路 4 段 43 號	\N	haoyehlee@mail.ntust.edu.tw	02-27376613	\N	\N	\N	0	1	2300	1	\N	\N	\N	G.綠色化工技術及程序工程,	11111	\N	國立臺灣科技大學		2015-06-12	2015/06/12	李豪業
+67	吳紀聖	Prof.	國立臺灣大學	化工系	台北市羅斯福路4段1號	\N	cswu@ntu.edu.tw	02-23631994	\N	\N	\N	0	0	1500	1	\N	\N	\N	F.觸媒及反應工程,	11111	\N			2015-06-12	2015/06/12	吳紀聖
+68	蘇安仲	Prof.	國立清華大學	化學工程系		\N	acsu@mx.nthu.edu.tw		\N	\N	\N	1	0	2000	1	\N	\N	\N	C.熱力及界面工程,	11111	\N			2015-06-12	2015/06/12	蘇安仲
+69	莊怡哲(Yi-Je Juang)	Prof.	國立成功大學	化工系	台南市大學路1號	\N	yjjuang@mail.ncku.edu.tw		\N	\N	\N	1	0	2000	1	\N	\N	\N	B.輸送現象及分離技術,	11111	\N	國立成功大學		2015-06-13	2015/06/13	莊怡哲
+70	蕭述三	Prof.	國立中央大學	機械工程系	桃園市中壢區中大路300號	\N	sshsiau@cc.ncu.edu.tw	03-4267341/0988699693	\N	\N	\N	0	0	1500	1	\N	\N	\N	I.減碳淨煤,	11111	\N			2015-06-15	2015/6/15	蕭述三
+71	陳立仁	Prof.	台灣大學	化工系		\N	ljchen@ntu.edu.tw		\N	\N	\N	0	0	1500	1	\N	\N	\N	C.熱力及界面工程,	11111	\N	國立臺灣大學		2015-06-20	2015/6/19	陳立仁
+72	李元堯	Prof.				\N	chmyyl@ccu.edu.tw		\N	\N	\N	1	0	2000	1	\N	\N	\N	D.材料在化工上的應用,E.電化學技術,	11111	\N	國立中正大學		2015-06-22	2015/06/22	李元堯
+73	陳崇賢	Prof.				\N	cschern@mail.ntust.edu.tw		\N	\N	\N	1	0	2000	1	\N	\N	\N	C.熱力及界面工程,F.觸媒及反應工程,	11111	\N	國立臺灣科技大學		2015-06-22	2015/06/17	陳崇賢
+74	高志明	Prof.	中山大學	環境工程研討所	高雄市蓮海路70號	\N	jkao@mail.nsysu.edu.tw	0935989780	\N	\N	\N	1	0	2000	1	\N	\N	\N	TKJ1: Energy and Environmental Engineering,	54953	\N			2015-06-23	8/31	高志明
+75	高志明教授	Prof.	中山大學	環工所	高雄市蓮海路70號	\N	cmjkao@gmail.com	0935989780	\N	\N	\N	1	0	2000	1	\N	\N	\N	TKJ1: Energy and Environmental Engineering,	11111	\N			2015-06-25	2015/8/31	高志明
+\.
+
+
+--
+-- Name: register_rid_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('register_rid_seq', 75, true);
+
+
+--
+-- Name: abstract_modified; Type: TRIGGER; Schema: public; Owner: admin
+--
+
+CREATE TRIGGER abstract_modified BEFORE UPDATE ON abstract FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
